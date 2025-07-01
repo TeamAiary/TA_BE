@@ -1,2 +1,2 @@
 # TA_BE
-Aiary Backend
+백엔드 고수들 (진)

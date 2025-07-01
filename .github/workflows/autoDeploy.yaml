@@ -1,0 +1,34 @@
+name : Deploy Action
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name : Deploy To Server
+        uses: appleboy/ssh-action@master
+        id: deploy
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/TA_BE
+            
+            git fetch origin
+            
+            git reset --hard origin
+            
+            chmod +x ./gradlew
+            
+            sudo ./gradlew clean build -x test
+            
+            sudo docker stop aiary-server
+            
+            sudo docker rm aiary-server
+            
+            sudo docker compose --env-file deploy.env up -d --build
