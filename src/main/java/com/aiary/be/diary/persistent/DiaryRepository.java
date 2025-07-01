@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
-    Page<Diary> findAllByCreatedAtBetween(
-        LocalDateTime start, LocalDateTime end, Pageable pageable
+    Page<Diary> findAllByUserIdAndCreatedAtBetween(
+        Long userId, LocalDateTime start, LocalDateTime end, Pageable pageable
     );
 }

@@ -8,13 +8,13 @@ import com.aiary.be.global.exception.CustomException;
 import com.aiary.be.global.exception.errorCode.DiaryErrorCode;
 import com.aiary.be.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.util.CustomObjectInputStream;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +22,9 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
     
     @Transactional(readOnly = true)
-    public Page<DiaryInfo> readDiaryInfos(LocalDateTime[] range, Pageable pageable) {
-        Page<Diary> diaries = diaryRepository.findAllByCreatedAtBetween(range[0], range[1], pageable);
-        return diaries.map(DiaryInfo::from);
+    public Page<DiaryInfo> readDiaryInfos(Long userId, LocalDateTime[] range, Pageable pageable) {
+        return diaryRepository.findAllByUserIdAndCreatedAtBetween(userId, range[0], range[1], pageable)
+                   .map(DiaryInfo::from);
     }
     
     @Transactional(readOnly = true)
@@ -63,5 +63,14 @@ public class DiaryService {
     @Transactional
     public void deleteDiary(Long diaryId) {
         diaryRepository.deleteById(diaryId);
+    }
+    
+    @Transactional(readOnly = true)
+    public boolean userMatch(Long userId, Long diaryId) {
+        Diary diary = diaryRepository.findById(diaryId).orElseThrow(
+            () -> CustomException.from(DiaryErrorCode.NOT_FOUND)
+        );
+        
+        return Objects.equals(diary.getUser().getId(), userId);
     }
 }

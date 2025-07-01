@@ -33,7 +33,7 @@ public class DiaryController {
         @LoginUser Long userId
     ) {
         LocalDateTime[] range = DateUtil.targetMonthRange(year, month);
-        Page<DiaryResponse.Simple> responses = diaryService.readDiaryInfos(range, pageable)
+        Page<DiaryResponse.Simple> responses = diaryService.readDiaryInfos(userId, range, pageable)
                                                  .map(DiaryResponse.Simple::from);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
@@ -44,7 +44,7 @@ public class DiaryController {
         @PathVariable Long diaryId,
         @LoginUser Long userId
     ) {
-        DiaryResponse.Detail response = DiaryResponse.Detail.from(diaryService.readDiaryInfo(diaryId));
+        DiaryResponse.Detail response = DiaryResponse.Detail.from(diaryFacade.readDiaryInfo(userId, diaryId));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
@@ -68,7 +68,7 @@ public class DiaryController {
         @PathVariable Long diaryId,
         @LoginUser Long userId
     ) {
-        diaryService.updateDiary(diaryId, diaryRequest);
+        diaryFacade.updateDiary(userId, diaryId, diaryRequest);
         return new ResponseEntity<>(
             Message.from("다이어리 수정에 성공했습니다."),
             HttpStatus.OK
@@ -81,7 +81,7 @@ public class DiaryController {
         @PathVariable Long diaryId,
         @LoginUser Long userId
     ) {
-        diaryService.deleteDiary(diaryId);
+        diaryFacade.deleteDiary(userId, diaryId);
         return new ResponseEntity<>(
             Message.from("다이어리 삭제에 성공했습니다."),
             HttpStatus.NO_CONTENT
