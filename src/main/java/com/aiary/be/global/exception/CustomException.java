@@ -17,7 +17,7 @@ public class CustomException extends RuntimeException {
         this.errorMessage = errorCode.message();
     }
     
-    public static CustomException of(ErrorCode errorCode) {
+    public static CustomException from(ErrorCode errorCode) {
         return new CustomException(errorCode);
     }
 }
