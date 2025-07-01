@@ -1,58 +1,90 @@
 package com.aiary.be.diary.presentation;
 
+import com.aiary.be.diary.application.DiaryFacade;
 import com.aiary.be.diary.application.DiaryService;
+import com.aiary.be.diary.presentation.dto.DiaryRequest;
+import com.aiary.be.diary.presentation.dto.DiaryResponse;
 import com.aiary.be.global.annotation.LoginUser;
+import com.aiary.be.global.response.Message;
+import com.aiary.be.global.util.DateUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/diary")
 public class DiaryController {
     private final DiaryService diaryService;
+    private final DiaryFacade diaryFacade;
     
-    // Todo 자신의 모든 일기 조회 (페이지 네이션 가능성 有)
+    // 월별 다이어리 불러오기
     @GetMapping
     public ResponseEntity<?> readAllDiary(
+        @RequestParam int year,
+        @RequestParam int month,
+        @PageableDefault(page = 0, size = 10) Pageable pageable,
         @LoginUser Long userId
     ) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        LocalDateTime[] range = DateUtil.targetMonthRange(year, month);
+        Page<DiaryResponse.Simple> responses = diaryService.readDiaryInfos(range, pageable)
+                                                 .map(DiaryResponse.Simple::from);
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
     
-    // Todo 하나의 다이어리 읽기
+    // 한 다이어리 내용 불러오기
     @GetMapping("/{diaryId}")
     public ResponseEntity<?> readOneDiary(
         @PathVariable Long diaryId,
         @LoginUser Long userId
     ) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        DiaryResponse.Detail response = DiaryResponse.Detail.from(diaryService.readDiaryInfo(diaryId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    // Todo 다이어리 작성하기
+    // 다이어리 작성하기
     @PostMapping
     public ResponseEntity<?> createOneDiary(
+        @RequestBody DiaryRequest diaryRequest,
         @LoginUser Long userId
     ) {
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        diaryFacade.createDiary(userId, diaryRequest);
+        return new ResponseEntity<>(
+            Message.from("다이어리 생성에 성공했습니다."),
+            HttpStatus.CREATED
+        );
     }
     
-    // Todo 다이어리 수정하기 (자신의 다이어리만 수정 가능)
+    // 다이어리 수정하기 (자신의 다이어리만 수정 가능)
     @PatchMapping("/{diaryId}")
     public ResponseEntity<?> updateOneDiary(
+        @RequestBody DiaryRequest diaryRequest,
         @PathVariable Long diaryId,
         @LoginUser Long userId
     ) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        diaryService.updateDiary(diaryId, diaryRequest);
+        return new ResponseEntity<>(
+            Message.from("다이어리 수정에 성공했습니다."),
+            HttpStatus.OK
+        );
     }
     
-    // Todo 다이어리 삭제하기 (자신의 다이어리만 삭제 가능)
+    // 다이어리 삭제하기 (자신의 다이어리만 삭제 가능)
     @DeleteMapping("/{diaryId}")
     public ResponseEntity<?> deleteOneDiary(
         @PathVariable Long diaryId,
         @LoginUser Long userId
     ) {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        diaryService.deleteDiary(diaryId);
+        return new ResponseEntity<>(
+            Message.from("다이어리 삭제에 성공했습니다."),
+            HttpStatus.NO_CONTENT
+        );
     }
 }
