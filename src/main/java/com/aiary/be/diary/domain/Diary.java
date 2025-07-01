@@ -40,4 +40,34 @@ public class Diary {
     
     @Column
     private int happy;
+    
+    public Diary(
+        User user,
+        String title, String content,
+        LocalDateTime createdAt, LocalDateTime modifiedAt,
+        int depression, int anger, int happy
+    ) {
+        this.user = user;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.depression = depression;
+        this.anger = anger;
+        this.happy = happy;
+    }
+    
+    public String getPreview() {
+        return content.substring(0, 12);
+    }
+    
+    public void update(
+        String title, String content, int depression, int anger, int happy
+    ) {
+        this.title = title;
+        this.content = content;
+        this.depression = depression;
+        this.anger = anger;
+        this.happy = happy;
+    }
 }
