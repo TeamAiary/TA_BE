@@ -5,6 +5,7 @@ import com.aiary.be.diary.application.dto.DiaryInfo;
 import java.time.LocalDateTime;
 
 public class DiaryResponse {
+    // 간략한 정보 (복수 조회)
     public record Simple(
         String title,
         LocalDateTime createdAt,
@@ -19,6 +20,7 @@ public class DiaryResponse {
         }
     }
     
+    // 자세한 정보 (단일 조회)
     public record Detail(
         String title,
         String content,
