@@ -64,10 +64,10 @@ public class Diary {
     public void update(
         String title, String content, int depression, int anger, int happy
     ) {
-        this.title = title;
-        this.content = content;
-        this.depression = depression;
-        this.anger = anger;
-        this.happy = happy;
+        this.title = title != null ? title : this.title;
+        this.content = content != null ? content : this.content;
+        this.depression = depression == 0 ? depression : this.depression;
+        this.anger = anger == 0 ? anger : this.anger;
+        this.happy = happy == 0 ? anger : this.happy;
     }
 }
