@@ -19,9 +19,15 @@ public class AuthController {
     // Todo 회원 가입 기능
     @PostMapping("/register")
     public ResponseEntity<?> register(
+        @RequestBody SignupRequest signupRequest,
         HttpServletResponse httpServletResponse // 쿠키 전달용
     ) {
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        authService.save(signupRequest);
+
+        // 회원가입 시에도 client에게 줘야 하는 쿠키가 있나요?
+        // 없으면 httpServletResponse는 이 메서드에서 사용 안 하는 걸로..
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     
     // Todo 로그인 기능
