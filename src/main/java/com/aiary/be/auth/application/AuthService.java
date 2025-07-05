@@ -1,11 +1,9 @@
 package com.aiary.be.auth.application;
 
 
-import com.aiary.be.auth.presentation.dto.LoginRequest;
 import com.aiary.be.user.domain.User;
 import com.aiary.be.user.persistent.UserRepository;
 import com.aiary.be.auth.presentation.dto.SignupRequest;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

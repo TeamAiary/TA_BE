@@ -57,6 +57,7 @@ public class AuthController {
         }
 
         // WAS가 알아서 JSESSIONID 쿠키를 응답에 추가
+        // userId, userName 필드를 따로 주지 않고, User 객체를 그대로 넣어줘도 될 듯
         HttpSession session = httpServletRequest.getSession();
         session.setAttribute("userId", user.getId());
         session.setAttribute("userName", user.getUserName());
