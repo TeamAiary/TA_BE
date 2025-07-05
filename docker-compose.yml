@@ -7,7 +7,9 @@ services:
     env_file:
       - deploy.env
     depends_on:
-      - database
+      database:
+        # database가 확실히 실행되었을 때 spring app을 실행
+        condition: service_healthy
     ports:
       - ${SPRING_PORT}:${SPRING_PORT}
     restart: "no"
@@ -29,6 +31,10 @@ services:
     restart: "no"
     volumes:
       - aiary-database:/var/lib/mysql
+    # database가 확실히 실행되었을 때 spring app을 실행
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-P",
+              "${DB_PORT}", "-u", "${DB_USERNAME}", "-p${DB_PW}" ]
 
 volumes:
   aiary-database:
