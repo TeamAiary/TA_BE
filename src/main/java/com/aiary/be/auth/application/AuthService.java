@@ -28,4 +28,14 @@ public class AuthService {
 
         userRepository.save(newUser);
     }
+
+    public User login(String email, String password){
+        User user = userRepository.findUserByEmail(email)
+            .orElse(null);
+
+        if(user==null || !user.getPassword().equals(password))
+            return null;
+
+        return user;
+    }
 }
