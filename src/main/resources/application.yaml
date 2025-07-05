@@ -1,6 +1,11 @@
 server:
   port: ${SPRING_PORT}
-
+  servlet:
+    session:
+      timeout: 1800 # 세션 만료 시간 (1800s, 30m)
+      cookie:
+        name: JSESSIONID # 세션 쿠키 이름 (기본값)
+        http-only: true # JavaScript에서 쿠키 접근 불가 (XSS 방어)
 spring:
   application:
     name: be
