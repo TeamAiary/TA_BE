@@ -25,12 +25,14 @@ import java.util.Optional;
 public class DiaryService {
     private final DiaryRepository diaryRepository;
     
+    // 오버로딩 : 페이지네이션을 적용한 특정 1달 동안의 다이어리 정보 조회
     @Transactional(readOnly = true)
     public Page<DiaryInfo> readDiaryInfos(Long userId, LocalDateTime[] range, Pageable pageable) {
         return diaryRepository.findAllByUserIdAndCreatedAtBetween(userId, range[0], range[1], pageable)
                    .map(DiaryInfo::from);
     }
     
+    // 오버로딩 : 리포트 생성을 위해서 7일 또는 1달 기간의 다이어리 정보 조회
     @Transactional(readOnly = true)
     public List<DiaryInfo> readDiaryInfos(Long userId, LocalDateTime[] range) {
         return diaryRepository.findAllByUserIdAndCreatedAtBetween(userId, range[0], range[1]).stream()
