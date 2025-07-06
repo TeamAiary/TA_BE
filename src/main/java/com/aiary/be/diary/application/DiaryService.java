@@ -2,6 +2,7 @@ package com.aiary.be.diary.application;
 
 import com.aiary.be.diary.application.dto.DiaryInfo;
 import com.aiary.be.diary.domain.Diary;
+import com.aiary.be.diary.domain.Weather;
 import com.aiary.be.diary.persistent.DiaryRepository;
 import com.aiary.be.diary.presentation.dto.DiaryRequest;
 import com.aiary.be.global.exception.CustomException;
@@ -64,6 +65,7 @@ public class DiaryService {
             user,
             diaryRequest.title(), diaryRequest.content(),
             LocalDateTime.now(), LocalDateTime.now(),
+            Weather.nameToEntity(diaryRequest.weather()),
             diaryRequest.depression(), diaryRequest.anger(), diaryRequest.happy()
         );
         
@@ -78,6 +80,7 @@ public class DiaryService {
         
         diary.update(
             diaryRequest.title(), diaryRequest.content(),
+            Weather.nameToEntity(diaryRequest.weather()),
             diaryRequest.depression(), diaryRequest.anger(), diaryRequest.happy()
         );
     }

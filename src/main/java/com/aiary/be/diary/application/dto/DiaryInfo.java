@@ -1,6 +1,7 @@
 package com.aiary.be.diary.application.dto;
 
 import com.aiary.be.diary.domain.Diary;
+import com.aiary.be.diary.domain.Weather;
 
 import java.time.LocalDateTime;
 
@@ -8,6 +9,7 @@ public record DiaryInfo(
     String title,
     String content,
     LocalDateTime createdAt,
+    Weather weather,
     int depression,
     int anger,
     int happy,
@@ -18,6 +20,7 @@ public record DiaryInfo(
             diary.getTitle(),
             diary.getContent(),
             diary.getCreatedAt(),
+            diary.getWeather(),
             diary.getDepression(),
             diary.getAnger(),
             diary.getHappy(),

@@ -9,12 +9,14 @@ public class DiaryResponse {
     public record Simple(
         String title,
         LocalDateTime createdAt,
+        String weather,
         String preview
     ) {
         public static Simple from(DiaryInfo diaryInfo) {
             return new Simple(
                 diaryInfo.title(),
                 diaryInfo.createdAt(),
+                diaryInfo.weather().name(),
                 diaryInfo.preview()
             );
         }
@@ -25,6 +27,7 @@ public class DiaryResponse {
         String title,
         String content,
         LocalDateTime createdAt,
+        String weather,
         int depression,
         int anger,
         int happy
@@ -34,6 +37,7 @@ public class DiaryResponse {
                 diaryInfo.title(),
                 diaryInfo.content(),
                 diaryInfo.createdAt(),
+                diaryInfo.weather().name(),
                 diaryInfo.depression(),
                 diaryInfo.anger(),
                 diaryInfo.happy()
