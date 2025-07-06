@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -18,5 +20,10 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(
             () -> CustomException.from(UserErrorCode.NOT_FOUND)
         );
+    }
+    
+    @Transactional(readOnly = true)
+    public List<User> getAllUser() {
+        return userRepository.findAll();
     }
 }
