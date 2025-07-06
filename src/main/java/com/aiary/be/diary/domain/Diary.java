@@ -66,8 +66,8 @@ public class Diary {
     ) {
         this.title = title != null ? title : this.title;
         this.content = content != null ? content : this.content;
-        this.depression = depression == 0 ? depression : this.depression;
-        this.anger = anger == 0 ? anger : this.anger;
-        this.happy = happy == 0 ? anger : this.happy;
+        this.depression = depression != 0 ? depression : this.depression;
+        this.anger = anger != 0 ? anger : this.anger;
+        this.happy = happy != 0 ? happy : this.happy;
     }
 }
