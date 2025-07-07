@@ -17,15 +17,16 @@ public class AuthService {
 
     // 회원가입: 신규 유저 등록
     public void save(SignupRequest request) {
-        User newUser = User.builder()
-            .email(request.email())
-            .password(passwordEncoder.encode(request.password()))
-            .userName(request.userName())
-            .age(request.age())
-            .role(request.role())
-            .gender(request.gender())
-            .phoneNumber(request.phoneNumber())
-            .build();
+        User newUser = new User(
+            request.email(),
+            request.password(),
+            request.userName(),
+            request.age(),
+            request.role(),
+            request.gender(),
+            request.phoneNumber(),
+            passwordEncoder
+        );
 
         userRepository.save(newUser);
     }
@@ -34,7 +35,7 @@ public class AuthService {
         User user = userRepository.findUserByEmail(email)
             .orElse(null);
 
-        if(user==null || !passwordEncoder.matches(password, user.getPassword()))
+        if(user==null || !user.passwordMatches(password, passwordEncoder))
             return null;
 
         return user;

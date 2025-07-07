@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Getter
@@ -39,4 +40,19 @@ public class User {
     
     @Column
     private String phoneNumber;
+
+    public User(String email, String password, String userName, int age, Role role, Gender gender,
+        String phoneNumber, PasswordEncoder passwordEncoder) {
+        this.email = email;
+        this.password = passwordEncoder.encode(password);
+        this.userName = userName;
+        this.age = age;
+        this.role = role;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public boolean passwordMatches(String rawPassword, PasswordEncoder passwordEncoder){
+        return passwordEncoder.matches(rawPassword, this.password);
+    }
 }
