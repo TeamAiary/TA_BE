@@ -21,7 +21,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession();
 
-        if(session==null || session.getAttribute("userId")==null){
+        if(session==null || session.getAttribute("loggedInUser")==null){
             log.warn("인증되지 않은 사용자, url: {}", request.getRequestURI());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json;charset=UTF-8");
