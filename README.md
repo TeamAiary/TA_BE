@@ -57,7 +57,7 @@
 
 **Architecture**
 
-![arch.png](image/arch.png)
+![img.png](image/arch.png)
 
 **Git Flow**
 
