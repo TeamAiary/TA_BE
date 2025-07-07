@@ -1,6 +1,7 @@
 package com.aiary.be.auth.application;
 
 
+import com.aiary.be.auth.presentation.dto.UserResponse;
 import com.aiary.be.global.exception.CustomException;
 import com.aiary.be.global.exception.errorCode.UserErrorCode;
 import com.aiary.be.user.domain.User;
@@ -33,7 +34,7 @@ public class AuthService {
         userRepository.save(newUser);
     }
 
-    public User login(String email, String password){
+    public UserResponse login(String email, String password){
         User user = userRepository.findUserByEmail(email)
             .orElseThrow(()-> CustomException.from(UserErrorCode.INVALID_EMAIL_PASSWORD));
 
@@ -41,6 +42,6 @@ public class AuthService {
             throw CustomException.from(UserErrorCode.INVALID_EMAIL_PASSWORD);
         }
 
-        return user;
+        return UserResponse.from(user);
     }
 }

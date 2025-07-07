@@ -3,6 +3,7 @@ package com.aiary.be.auth.presentation;
 import com.aiary.be.auth.application.AuthService;
 import com.aiary.be.auth.presentation.dto.LoginRequest;
 import com.aiary.be.auth.presentation.dto.SignupRequest;
+import com.aiary.be.auth.presentation.dto.UserResponse;
 import com.aiary.be.global.response.Message;
 import com.aiary.be.user.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,17 +45,13 @@ public class AuthController {
     ) {
         // 이후 bindingResult는 RequestBody의 유효성 검증 로직에 사용
 
-        User user = authService.login(loginRequest.email(), loginRequest.password());
-        if(user==null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Message.from("로그인 정보가 일치하지 않습니다."));
-        }
+        UserResponse user = authService.login(loginRequest.email(), loginRequest.password());
 
         // WAS가 알아서 JSESSIONID 쿠키를 응답에 추가
         // userId, userName 필드를 따로 주지 않고, User 객체를 그대로 넣어줘도 될 듯
         HttpSession session = httpServletRequest.getSession();
-        session.setAttribute("userId", user.getId());
-        session.setAttribute("userName", user.getUserName());
+        session.setAttribute("userId", user.userId());
+        session.setAttribute("userName", user.userName());
 
         return ResponseEntity.status(HttpStatus.OK)
             .body(Message.from("로그인에 성공하였습니다."));
