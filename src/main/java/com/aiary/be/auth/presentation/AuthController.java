@@ -44,7 +44,7 @@ public class AuthController {
     ) {
         // 이후 bindingResult는 RequestBody의 유효성 검증 로직에 사용
 
-        User user = authService.login(loginRequest.getEmail(), loginRequest.getPassword());
+        User user = authService.login(loginRequest.email(), loginRequest.password());
         if(user==null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Message.from("로그인 정보가 일치하지 않습니다."));
