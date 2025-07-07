@@ -5,7 +5,6 @@ import com.aiary.be.auth.presentation.dto.LoginRequest;
 import com.aiary.be.auth.presentation.dto.SignupRequest;
 import com.aiary.be.global.response.Message;
 import com.aiary.be.user.domain.User;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,21 +24,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
 
-    // Todo 회원 가입 기능
+    // 회원가입
     @PostMapping("/register")
     public ResponseEntity<?> register(
-        @RequestBody SignupRequest signupRequest,
-        HttpServletResponse httpServletResponse // 쿠키 전달용
+        @RequestBody SignupRequest signupRequest
     ) {
         authService.save(signupRequest);
-
-        // 회원가입 시에도 client에게 줘야 하는 쿠키가 있나요?
-        // 없으면 httpServletResponse는 이 메서드에서 사용 안 하는 걸로..
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    // Todo 로그인 기능
+    // 로그인
     @PostMapping("/login")
     public ResponseEntity<?> login(
         @RequestBody LoginRequest loginRequest,
