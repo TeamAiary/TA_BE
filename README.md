@@ -50,13 +50,18 @@
 - 이는 스케줄링 + open ai api를 이용하여 작성됨
 
 ## 설계
+
 **ERD**
 
-추가예쩡
+![erd.png](image/erd.png)
 
 **Architecture**
 
-추가예정
+![arch.png](image/arch.png)
+
+**Git Flow**
+
+![git_flow.png](image/git_flow.png)
 
 ## 기술 스택
 > Framework
