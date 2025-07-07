@@ -5,6 +5,7 @@ import com.aiary.be.auth.presentation.dto.LoginRequest;
 import com.aiary.be.auth.presentation.dto.SignupRequest;
 import com.aiary.be.auth.presentation.dto.UserResponse;
 import com.aiary.be.global.response.Message;
+import com.aiary.be.global.util.SessionUtil;
 import com.aiary.be.user.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -47,11 +48,7 @@ public class AuthController {
 
         UserResponse user = authService.login(loginRequest.email(), loginRequest.password());
 
-        // WAS가 알아서 JSESSIONID 쿠키를 응답에 추가
-        // userId, userName 필드를 따로 주지 않고, User 객체를 그대로 넣어줘도 될 듯
-        HttpSession session = httpServletRequest.getSession();
-        session.setAttribute("userId", user.userId());
-        session.setAttribute("userName", user.userName());
+        SessionUtil.setUserSession(httpServletRequest, user);
 
         return ResponseEntity.status(HttpStatus.OK)
             .body(Message.from("로그인에 성공하였습니다."));
@@ -62,13 +59,7 @@ public class AuthController {
     public ResponseEntity<?> logout(
         HttpServletRequest httpServletRequest
     ){
-        // 기존 session 가져오기(없으면 null을 받아옴)
-        HttpSession session = httpServletRequest.getSession(false);
-
-        if(session!=null){
-            // 기존 session 존재 -> 무효화 필요함
-            session.invalidate();
-        }
+        SessionUtil.invalidateSession(httpServletRequest);
 
         return ResponseEntity.status(HttpStatus.OK)
             .body(Message.from("로그아웃에 성공하였습니다."));
