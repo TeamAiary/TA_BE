@@ -31,7 +31,7 @@ public class DiaryController {
         @PageableDefault(page = 0, size = 10) Pageable pageable,
         @RequestAttribute Long userId
     ) {
-        LocalDateTime[] range = DateUtil.targetMonthRange(year, month);
+        LocalDateTime[] range = DateUtil.searchRange(year, month);
         Page<DiaryResponse.Simple> responses = diaryService.readDiaryInfos(userId, range, pageable)
                                                  .map(DiaryResponse.Simple::from);
         return new ResponseEntity<>(responses, HttpStatus.OK);
