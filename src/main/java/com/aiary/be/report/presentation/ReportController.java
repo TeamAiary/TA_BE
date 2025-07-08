@@ -35,8 +35,7 @@ public class ReportController {
     // 리포트 강제 생성
     @PostMapping("/activate")
     public ResponseEntity<?> reportAiActivate(
-        @RequestParam String reportType,
-        @RequestAttribute Long userId
+        @RequestParam String reportType
     ) {
         reportFacade.createReport(ReportType.nameToEntity(reportType.toUpperCase()));
         return new ResponseEntity<>(HttpStatus.OK);
