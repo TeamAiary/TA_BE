@@ -16,7 +16,7 @@ public class DiaryFacade {
     private final UserService userService;
     
     public DiaryInfo readDiaryInfo(Long userId, Long diaryId) {
-        if(diaryService.userMatch(userId, diaryId)) {
+        if(!diaryService.userMatch(userId, diaryId)) {
             throw CustomException.from(DiaryErrorCode.NOT_MATCH);
         }
         
@@ -30,7 +30,7 @@ public class DiaryFacade {
     }
     
     public void updateDiary(Long userId, Long diaryId, DiaryRequest diaryRequest) {
-        if(diaryService.userMatch(userId, diaryId)) {
+        if(!diaryService.userMatch(userId, diaryId)) {
             throw CustomException.from(DiaryErrorCode.NOT_MATCH);
         }
         
@@ -38,7 +38,7 @@ public class DiaryFacade {
     }
     
     public void deleteDiary(Long userId, Long diaryId) {
-        if(diaryService.userMatch(userId, diaryId)) {
+        if(!diaryService.userMatch(userId, diaryId)) {
             throw CustomException.from(DiaryErrorCode.NOT_MATCH);
         }
         

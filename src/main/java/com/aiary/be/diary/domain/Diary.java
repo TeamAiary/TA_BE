@@ -33,6 +33,10 @@ public class Diary {
     private LocalDateTime modifiedAt;
     
     @Column
+    @Enumerated(EnumType.STRING)
+    private Weather weather;
+    
+    @Column
     private int depression;
     
     @Column
@@ -45,6 +49,7 @@ public class Diary {
         User user,
         String title, String content,
         LocalDateTime createdAt, LocalDateTime modifiedAt,
+        Weather weather,
         int depression, int anger, int happy
     ) {
         this.user = user;
@@ -52,6 +57,7 @@ public class Diary {
         this.content = content;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+        this.weather = weather;
         this.depression = depression;
         this.anger = anger;
         this.happy = happy;
@@ -62,12 +68,15 @@ public class Diary {
     }
     
     public void update(
-        String title, String content, int depression, int anger, int happy
+        String title, String content, Weather weather, int depression, int anger, int happy
     ) {
         this.title = title != null ? title : this.title;
         this.content = content != null ? content : this.content;
-        this.depression = depression == 0 ? depression : this.depression;
-        this.anger = anger == 0 ? anger : this.anger;
-        this.happy = happy == 0 ? anger : this.happy;
+        this.weather = weather != null ? weather : this.weather;
+        this.depression = depression != 0 ? depression : this.depression;
+        this.anger = anger != 0 ? anger : this.anger;
+        this.happy = happy != 0 ? happy : this.happy;
+        
+        this.modifiedAt = LocalDateTime.now();
     }
 }

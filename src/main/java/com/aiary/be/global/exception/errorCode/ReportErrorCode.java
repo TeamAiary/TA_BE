@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
-public enum DiaryErrorCode implements ErrorCode {
-    NOT_FOUND(HttpStatus.NOT_FOUND, "D001", "존재하지 않는 다이어리 아이디입니다."),
-    NOT_MATCH(HttpStatus.UNAUTHORIZED, "D002", "자신의 다이어리만 열람할 수 있습니다"),
-    ALREADY_EXIST_DAY(HttpStatus.BAD_REQUEST, "D003", "이미 다이어리를 작성한 날입니다."),
-    NOT_MATCH_WEATHER(HttpStatus.BAD_REQUEST, "D004", "날씨는 맑음, 흐림, 비, 눈만 입력 가능합니다.");
+public enum ReportErrorCode implements ErrorCode {
+    NOT_FOUND(HttpStatus.NOT_FOUND, "R001", "존재하지 않는 리포트 아이디입니다."),
+    NOT_FOUND_TYPE(HttpStatus.NOT_FOUND, "R002", "존재하지 않는 리포트 타입입니다.");
     
     private final HttpStatus httpStatus;
     private final String code;

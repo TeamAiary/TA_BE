@@ -82,9 +82,6 @@ public class DiaryController {
         @LoginUser Long userId
     ) {
         diaryFacade.deleteDiary(userId, diaryId);
-        return new ResponseEntity<>(
-            Message.from("다이어리 삭제에 성공했습니다."),
-            HttpStatus.NO_CONTENT
-        );
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
