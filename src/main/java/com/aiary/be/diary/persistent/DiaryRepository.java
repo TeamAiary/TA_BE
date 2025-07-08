@@ -12,17 +12,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
-    @Query("SELECT e FROM Diary e WHERE e.createdAt >= :startDate AND e.createdAt < :endDate")
+    @Query("SELECT e FROM Diary e WHERE e.createdAt >= :startDate AND e.createdAt < :endDate  AND e.user.id = :userId")
     Page<Diary> findAllByUserIdAndCreatedAtBetween(
-        Long userId,
+        @Param("userId") Long userId,
         @Param("startDate") LocalDateTime start,
         @Param("endDate") LocalDateTime end,
         Pageable pageable
     );
     
-    @Query("SELECT e FROM Diary e WHERE e.createdAt >= :startDate AND e.createdAt < :endDate")
+    @Query("SELECT e FROM Diary e WHERE e.createdAt >= :startDate AND e.createdAt < :endDate AND e.user.id = :userId")
     List<Diary> findAllByUserIdAndCreatedAtBetween(
-        Long userId,
+        @Param("userId") Long userId,
         @Param("startDate") LocalDateTime start,
         @Param("endDate") LocalDateTime end
     );
