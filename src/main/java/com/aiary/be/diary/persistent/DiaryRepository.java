@@ -22,7 +22,9 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
     
     @Query("SELECT e FROM Diary e WHERE e.createdAt >= :startDate AND e.createdAt < :endDate")
     List<Diary> findAllByUserIdAndCreatedAtBetween(
-        Long userId, LocalDateTime start, LocalDateTime end
+        Long userId,
+        @Param("startDate") LocalDateTime start,
+        @Param("endDate") LocalDateTime end
     );
     
     Optional<Diary> findByUserIdOrderByIdDesc(Long userId);
