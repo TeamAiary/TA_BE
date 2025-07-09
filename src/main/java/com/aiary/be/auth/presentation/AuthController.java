@@ -33,7 +33,8 @@ public class AuthController {
     ) {
         authService.save(signupRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(Message.from("회원가입이 완료되었습니다."));
     }
 
     // 로그인
