@@ -46,13 +46,13 @@ public class ReportFacade {
         LocalDate start = searchRange[0].toLocalDate();
         LocalDate end = searchRange[1].toLocalDate().minusDays(1);
         
-        // 유저 - 주간 다이어리 쌍
+        // 유저-주간 다이어리 쌍
         Map<Long, List<DiaryInfo>> userIdDiary = users.stream()
                                                      .collect(Collectors.toMap(
                                                          User::getId,
                                                          user -> diaryService.readDiaryInfos(user.getId(), searchRange)
                                                      ));
-        // 유저 - 주간 감정 쌍
+        // 유저-주간 감정 쌍
         Map<Long, Emotion> userIdEmotion = userIdDiary.keySet().stream()
                                           .collect(Collectors.toMap(
                                               userId -> userId,
@@ -68,10 +68,10 @@ public class ReportFacade {
                                           ));
         
         
+        // 핵심 : 외부 api 호출을 non-blocking으로 하고, 이후에 응답을 모아서 한 번에 bulk로 저장
         Flux.fromIterable(userIdDiary.entrySet())
             .flatMap(entry -> reportClient.analyze(entry.getKey(), entry.getValue()))
             .collectList()
-            .publishOn(Schedulers.boundedElastic())
             .publishOn(Schedulers.boundedElastic())
             .flatMap((apiResponses) -> {
                 List<Report> reports = new ArrayList<>();
