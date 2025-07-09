@@ -1,6 +1,5 @@
 package com.aiary.be.user.presentation;
 
-import com.aiary.be.global.annotation.LoginUser;
 import com.aiary.be.user.application.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,7 @@ public class UserController {
     // Todo 자신의 프로필 읽기 기능
     @GetMapping
     public ResponseEntity<?> readMyProfile(
-        @LoginUser Long userId
+        @RequestAttribute Long userId
     ) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -24,7 +23,7 @@ public class UserController {
     // Todo 자신의 프로필 업데이트 기능
     @PatchMapping
     public ResponseEntity<?> updateMyProfile(
-        @LoginUser Long userId
+        @RequestAttribute Long userId
     ) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -32,7 +31,7 @@ public class UserController {
     // Todo 자신의 계정 삭제 기능
     @DeleteMapping
     public ResponseEntity<?> deleteMyProfile(
-        @LoginUser Long userId
+        @RequestAttribute Long userId
     ) {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

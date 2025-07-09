@@ -1,6 +1,7 @@
 package com.aiary.be.global.interceptor;
 
 
+import com.aiary.be.auth.presentation.dto.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -38,9 +39,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 //        }
 
         // controller에서 자주 사용할 만한 것들은 @RequestAttribute()로 받아서 사용할 수 있도록 전달할 수 있다.
-//        request.setAttribute("userId", session.getAttribute("userId"));
 //        request.setAttribute("userEmail", session.getAttribute("userEmail"));
-
+        UserResponse userResponse = (UserResponse) session.getAttribute("loggedInUser");
+        request.setAttribute("userId", userResponse.userId());
         return true;
     }
 

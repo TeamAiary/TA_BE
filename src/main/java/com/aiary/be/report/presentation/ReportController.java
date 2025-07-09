@@ -1,9 +1,7 @@
 package com.aiary.be.report.presentation;
 
-import com.aiary.be.global.annotation.LoginUser;
 import com.aiary.be.report.application.ReportFacade;
 import com.aiary.be.report.application.ReportService;
-import com.aiary.be.report.application.dto.ReportInfo;
 import com.aiary.be.report.domain.ReportType;
 import com.aiary.be.report.presentation.dto.ReportResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,7 @@ public class ReportController {
     // 리포트 가져오기
     @GetMapping("/{reportType}")
     public ResponseEntity<?> weeklyReport(
-        @LoginUser Long userId,
+        @RequestAttribute Long userId,
         @PathVariable String reportType,
         @PageableDefault(page = 0, size = 10) Pageable pageable
     ) {
@@ -37,8 +35,7 @@ public class ReportController {
     // 리포트 강제 생성
     @PostMapping("/activate")
     public ResponseEntity<?> reportAiActivate(
-        @RequestParam String reportType,
-        @LoginUser Long userId
+        @RequestParam String reportType
     ) {
         reportFacade.createReport(ReportType.nameToEntity(reportType.toUpperCase()));
         return new ResponseEntity<>(HttpStatus.OK);

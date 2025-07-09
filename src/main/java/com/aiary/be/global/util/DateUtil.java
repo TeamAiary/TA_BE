@@ -4,54 +4,27 @@ import com.aiary.be.report.domain.ReportType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class DateUtil {
-    public static LocalDateTime[] targetMonthRange(int year, int month) {
+    // 오버로딩 : 대상 연, 월을 기준으로 1달의 기간을 반환
+    public static LocalDateTime[] searchRange(int year, int month) {
         LocalDateTime[] range = new LocalDateTime[2];
         range[0] = LocalDateTime.of(year, month, 1, 0, 0, 0);
-        
-        range[1] = LocalDateTime.of(year,month, getEndDayOfMonth(year, month), 23, 59, 59);
+        range[1] = LocalDateTime.of(year, month + 1, 1, 0, 0, 0);
         return range;
     }
     
-    public static int getEndDayOfMonth(int year, int month) {
-        // 윤년 조건
-        if(isLeapYear(year) && month == 2) {
-            return 29;
-        }
-        
-        return switch (month) {
-            case 1, 3, 5, 7, 8, 10, 12 -> 31;
-            case 4, 6, 9, 11 -> 30;
-            default -> 28;
-        };
-    }
-    
-    private static boolean isLeapYear(int year) {
-        return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+    // 오버로딩 : 리포트 타입을 기준으로 범위를 산정
+    public static LocalDateTime[] searchRange(ReportType reportType) {
+        LocalDateTime[] range = new LocalDateTime[2];
+        range[1] = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0));
+        range[0] = reportType.equals(ReportType.WEEKLY) ? range[1].minusDays(7) : range[1].minusMonths(1);
+        return range;
     }
     
     public static String dateFormating(LocalDate date) {
         return DateTimeFormatter.ISO_LOCAL_DATE.format(date);
-    }
-    
-    public static LocalDateTime[] reportRange(ReportType reportType) {
-        LocalDateTime[] range = new LocalDateTime[2];
-        range[1] = LocalDateTime.now().minusMinutes(5);
-        range[0] = range[1].minusDays(6);
-        
-        return range;
-    }
-    
-    public static int latestMonthEndDay() {
-        int month = LocalDate.now().getMonthValue();
-        int year = LocalDate.now().getYear();
-        
-        if(month == 1) {
-            return getEndDayOfMonth(year - 1, 12);
-        }
-        
-        return getEndDayOfMonth(year, month - 1);
     }
 }

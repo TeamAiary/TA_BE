@@ -4,7 +4,6 @@ import com.aiary.be.diary.application.DiaryFacade;
 import com.aiary.be.diary.application.DiaryService;
 import com.aiary.be.diary.presentation.dto.DiaryRequest;
 import com.aiary.be.diary.presentation.dto.DiaryResponse;
-import com.aiary.be.global.annotation.LoginUser;
 import com.aiary.be.global.response.Message;
 import com.aiary.be.global.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +29,9 @@ public class DiaryController {
         @RequestParam int year,
         @RequestParam int month,
         @PageableDefault(page = 0, size = 10) Pageable pageable,
-        @LoginUser Long userId
+        @RequestAttribute Long userId
     ) {
-        LocalDateTime[] range = DateUtil.targetMonthRange(year, month);
+        LocalDateTime[] range = DateUtil.searchRange(year, month);
         Page<DiaryResponse.Simple> responses = diaryService.readDiaryInfos(userId, range, pageable)
                                                  .map(DiaryResponse.Simple::from);
         return new ResponseEntity<>(responses, HttpStatus.OK);
@@ -42,7 +41,7 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public ResponseEntity<?> readOneDiary(
         @PathVariable Long diaryId,
-        @LoginUser Long userId
+        @RequestAttribute Long userId
     ) {
         DiaryResponse.Detail response = DiaryResponse.Detail.from(diaryFacade.readDiaryInfo(userId, diaryId));
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -52,7 +51,7 @@ public class DiaryController {
     @PostMapping
     public ResponseEntity<?> createOneDiary(
         @RequestBody DiaryRequest diaryRequest,
-        @LoginUser Long userId
+        @RequestAttribute Long userId
     ) {
         diaryFacade.createDiary(userId, diaryRequest);
         return new ResponseEntity<>(
@@ -66,7 +65,7 @@ public class DiaryController {
     public ResponseEntity<?> updateOneDiary(
         @RequestBody DiaryRequest diaryRequest,
         @PathVariable Long diaryId,
-        @LoginUser Long userId
+        @RequestAttribute Long userId
     ) {
         diaryFacade.updateDiary(userId, diaryId, diaryRequest);
         return new ResponseEntity<>(
@@ -79,7 +78,7 @@ public class DiaryController {
     @DeleteMapping("/{diaryId}")
     public ResponseEntity<?> deleteOneDiary(
         @PathVariable Long diaryId,
-        @LoginUser Long userId
+        @RequestAttribute Long userId
     ) {
         diaryFacade.deleteDiary(userId, diaryId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
