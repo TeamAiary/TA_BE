@@ -20,7 +20,7 @@ public record ReportInfo(
             report.getReportType().name(),
             DateUtil.dateFormating(report.getStartDate()),
             DateUtil.dateFormating(report.getEndDate()),
-            report.getDepression(), report.getAnger(), report.getHappy(),
+            report.getEmotion().getDepression(), report.getEmotion().getAnger(), report.getEmotion().getHappy(),
             report.getRiskScore()
         );
     }
