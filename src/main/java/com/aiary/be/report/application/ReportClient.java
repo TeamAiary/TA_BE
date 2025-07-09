@@ -3,6 +3,7 @@ package com.aiary.be.report.application;
 import com.aiary.be.diary.application.dto.DiaryInfo;
 import com.aiary.be.global.annotation.Client;
 
+import com.aiary.be.report.application.dto.AiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,14 +25,14 @@ public class ReportClient {
         this.webClient = webClientBuilder.baseUrl("https://api.openai.com/v1").build();
     }
     
-    public String analyze(List<DiaryInfo> diaryInfos) {
+    public Mono<AiResponse> analyze(Long userId, List<DiaryInfo> diaryInfos) {
         String prompt = buildPrompt(diaryInfos);
         
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", "gpt-3.5-turbo");
         requestBody.put("messages", List.of(Map.of("role", "user", "content", prompt)));
         
-        Mono<String> mono = webClient.post()
+        return webClient.post()
                                 .uri("/chat/completions")
                                 .header("Authorization", "Bearer " + apiKey)
                                 .bodyValue(requestBody)
@@ -40,9 +41,12 @@ public class ReportClient {
                                 .map(response -> {
                                     List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
                                     Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
-                                    return (String) message.get("content");
+                                    return new AiResponse(
+                                        userId,
+                                        (String) message.get("content")
+                                    );
+                                    
                                 });
-        return mono.block();
     }
     
     private String buildPrompt(List<DiaryInfo> diaryInfos) {

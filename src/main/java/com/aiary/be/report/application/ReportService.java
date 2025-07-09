@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReportService {
@@ -24,7 +26,7 @@ public class ReportService {
     }
     
     @Transactional
-    public void createReport(Report report) {
-        reportRepository.save(report);
+    public void saveReportBulk(List<Report> reports) {
+        reportRepository.saveAll(reports);
     }
 }
