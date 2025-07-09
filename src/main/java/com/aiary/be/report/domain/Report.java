@@ -38,52 +38,26 @@ public class Report {
     @Column
     private LocalDate endDate;
     
-    @Column
-    private int depression;
-    
-    @Column
-    private int anger;
-    
-    @Column
-    private int happy;
+    @Embedded
+    private Emotion emotion;
     
     @Column
     private int riskScore;
     
-    public Report(User user, String title, String content, ReportType reportType, LocalDate startDate, LocalDate endDate) {
+    public Report(
+        User user,
+        String title, String content,
+        ReportType reportType,
+        LocalDate startDate, LocalDate endDate,
+        Emotion emotion
+    ) {
         this.user = user;
         this.title = title;
         this.content = content;
         this.reportType = reportType;
         this.startDate = startDate;
         this.endDate = endDate;
-    }
-    
-    public void calculateDepression(List<Integer> depressions) {
-        double average = depressions.stream()
-                              .mapToInt(Integer::intValue)
-                              .average()
-                              .orElse(0.0);
-        
-        this.depression = (int) average;
-    }
-    
-    public void calculateAnger(List<Integer> angers) {
-        double average = angers.stream()
-                             .mapToInt(Integer::intValue)
-                             .average()
-                             .orElse(0.0);
-        
-        this.anger = (int) average;
-    }
-    
-    public void calculateHappy(List<Integer> happies) {
-        double average = happies.stream()
-                             .mapToInt(Integer::intValue)
-                             .average()
-                             .orElse(0.0);
-        
-        this.happy = (int) average;
+        this.emotion = emotion;
     }
     
     public void calculateRisk(int riskScore) {
