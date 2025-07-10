@@ -33,20 +33,20 @@ public class ReportClient {
         requestBody.put("messages", List.of(Map.of("role", "user", "content", prompt)));
         
         return webClient.post()
-                                .uri("/chat/completions")
-                                .header("Authorization", "Bearer " + apiKey)
-                                .bodyValue(requestBody)
-                                .retrieve()
-                                .bodyToMono(Map.class)
-                                .map(response -> {
-                                    List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
-                                    Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
-                                    return new AiResponse(
-                                        userId,
-                                        (String) message.get("content")
-                                    );
-                                    
-                                });
+                   .uri("/chat/completions")
+                   .header("Authorization", "Bearer " + apiKey)
+                   .bodyValue(requestBody)
+                   .retrieve()
+                   .bodyToMono(Map.class)
+                   .map(response -> {
+                        List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
+                        Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
+                        return new AiResponse(
+                            userId,
+                            (String) message.get("content")
+                        );
+                        
+                   });
     }
     
     private String buildPrompt(List<DiaryInfo> diaryInfos) {

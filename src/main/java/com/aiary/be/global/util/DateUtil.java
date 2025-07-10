@@ -2,10 +2,12 @@ package com.aiary.be.global.util;
 
 import com.aiary.be.report.domain.ReportType;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 public class DateUtil {
     // 오버로딩 : 대상 연, 월을 기준으로 1달의 기간을 반환
@@ -21,6 +23,23 @@ public class DateUtil {
         LocalDateTime[] range = new LocalDateTime[2];
         range[1] = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0));
         range[0] = reportType.equals(ReportType.WEEKLY) ? range[1].minusDays(7) : range[1].minusMonths(1);
+        return range;
+    }
+    
+    // 주간 다이어리 작성 여부 확인을 위한 범위를 산정
+    public static LocalDateTime[] weeklyDiaryRange() {
+        LocalDateTime today = LocalDateTime.now();
+
+        // 이번 주의 월요일 (시작)
+        LocalDateTime startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
+        // 이번 주의 일요일 (끝)
+        LocalDateTime endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        
+        LocalDateTime[] range = new LocalDateTime[2];
+        range[0] = startOfWeek;
+        range[1] = endOfWeek;
+        
         return range;
     }
     

@@ -3,6 +3,7 @@ package com.aiary.be.diary.presentation.dto;
 import com.aiary.be.diary.application.dto.DiaryInfo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class DiaryResponse {
     // 간략한 정보 (복수 조회)
@@ -42,6 +43,13 @@ public class DiaryResponse {
                 diaryInfo.anger(),
                 diaryInfo.happy()
             );
+        }
+    }
+    
+    // 주간 다이어리 작성 여부
+    public record WeeklyDo(List<Boolean> weeklyDo) {
+        public static WeeklyDo from(List<Boolean> weeklyDo) {
+            return new WeeklyDo(weeklyDo);
         }
     }
 }
