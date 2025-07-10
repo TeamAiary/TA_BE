@@ -1,7 +1,7 @@
 package com.aiary.be.auth.application;
 
 
-import com.aiary.be.auth.presentation.dto.UserResponse;
+import com.aiary.be.user.presentation.dto.UserResponse;
 import com.aiary.be.global.exception.CustomException;
 import com.aiary.be.global.exception.errorCode.UserErrorCode;
 import com.aiary.be.user.domain.User;

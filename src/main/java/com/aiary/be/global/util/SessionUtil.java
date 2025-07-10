@@ -1,6 +1,6 @@
 package com.aiary.be.global.util;
 
-import com.aiary.be.auth.presentation.dto.UserResponse;
+import com.aiary.be.user.presentation.dto.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 

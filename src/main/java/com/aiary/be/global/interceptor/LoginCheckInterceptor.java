@@ -1,7 +1,7 @@
 package com.aiary.be.global.interceptor;
 
 
-import com.aiary.be.auth.presentation.dto.UserResponse;
+import com.aiary.be.user.presentation.dto.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
