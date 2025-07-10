@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,6 +45,15 @@ public class DiaryController {
         @RequestAttribute Long userId
     ) {
         DiaryResponse.Detail response = DiaryResponse.Detail.from(diaryFacade.readDiaryInfo(userId, diaryId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
+    // 이번 주의 다이어리 작성 여부 불러오기
+    @GetMapping("/weekly")
+    public ResponseEntity<?> readWeeklyDiary(
+        @RequestAttribute Long userId
+    ) {
+        DiaryResponse.WeeklyDo response = DiaryResponse.WeeklyDo.from(diaryFacade.weeklyWriteDiary(userId));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
