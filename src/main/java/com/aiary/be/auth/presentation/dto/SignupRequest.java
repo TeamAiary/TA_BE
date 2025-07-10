@@ -9,6 +9,5 @@ public record SignupRequest(
     String userName,
     int age,
     Gender gender,
-    Role role,
     String phoneNumber
 ) {}
