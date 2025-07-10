@@ -42,8 +42,7 @@ public class AuthController {
     public ResponseEntity<?> login(
         @RequestBody LoginRequest loginRequest,
         BindingResult bindingResult,
-        HttpServletRequest httpServletRequest,
-        HttpServletResponse httpServletResponse // 쿠키 전달용
+        HttpServletRequest httpServletRequest
     ) {
         // 이후 bindingResult는 RequestBody의 유효성 검증 로직에 사용
 
@@ -69,7 +68,6 @@ public class AuthController {
     // Todo 써드 파티 OAuth
     @GetMapping("/oauth")
     public ResponseEntity<?> oauth(
-        HttpServletResponse httpServletResponse // 쿠키 전달용
     ) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
