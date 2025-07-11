@@ -3,6 +3,8 @@ package com.aiary.be.global.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.stream.Collectors;
+
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -34,20 +36,20 @@ public class ControllerAdvice {
         MethodArgumentNotValidException exception
     ) {
         String allErrorMessages = exception.getBindingResult().getAllErrors().stream()
-            .map(error -> error.getDefaultMessage())
+            .map(DefaultMessageSourceResolvable::getDefaultMessage)
             .collect(Collectors.joining("\n"));
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
             HttpStatus.BAD_REQUEST,
             allErrorMessages
         );
-
-        problemDetail.setTitle(String.valueOf(HttpStatus.BAD_REQUEST));
+        
+        // Valid 도메인 에러
+        problemDetail.setTitle("V001");
         problemDetail.setInstance(URI.create(request.getRequestURI()));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(problemDetail);
-
     }
 
     @ExceptionHandler(Exception.class)
