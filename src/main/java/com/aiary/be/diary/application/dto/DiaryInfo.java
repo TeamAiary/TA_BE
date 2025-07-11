@@ -13,7 +13,9 @@ public record DiaryInfo(
     int depression,
     int anger,
     int happy,
-    String preview
+    String preview,
+    String emotion,
+    int emotionPoint
 ) {
     public static DiaryInfo from(Diary diary) {
         return new DiaryInfo(
@@ -24,7 +26,9 @@ public record DiaryInfo(
             diary.getDepression(),
             diary.getAnger(),
             diary.getHappy(),
-            diary.getPreview()
+            diary.getPreview(),
+            diary.getMostEmotion(),
+            diary.getMostEmotionPoint()
         );
     }
 }
