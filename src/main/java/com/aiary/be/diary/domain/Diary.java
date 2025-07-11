@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -65,6 +68,26 @@ public class Diary {
     
     public String getPreview() {
         return content.substring(0, 12);
+    }
+    
+    public int getMostEmotionPoint() {
+        List<Integer> emotions = List.of(depression, anger, happy);
+        return Collections.max(emotions);
+    }
+    
+    public String getMostEmotion() {
+        int maxValue = getMostEmotionPoint();
+        
+        if(maxValue == depression) {
+            return "depression";
+        }
+        if(maxValue == anger) {
+            return "anger";
+        }
+        
+        return "happy";
+        
+        
     }
     
     public void update(

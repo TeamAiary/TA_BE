@@ -11,14 +11,18 @@ public class DiaryResponse {
         String title,
         LocalDateTime createdAt,
         String weather,
-        String preview
+        String preview,
+        String emotion,
+        int emotionPoint
     ) {
         public static Simple from(DiaryInfo diaryInfo) {
             return new Simple(
                 diaryInfo.title(),
                 diaryInfo.createdAt(),
                 diaryInfo.weather().name(),
-                diaryInfo.preview()
+                diaryInfo.preview(),
+                diaryInfo.emotion(),
+                diaryInfo.emotionPoint()
             );
         }
     }
