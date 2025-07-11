@@ -1,7 +1,8 @@
 package com.aiary.be.auth.application;
 
 
-import com.aiary.be.auth.presentation.dto.UserResponse;
+import com.aiary.be.user.domain.Role;
+import com.aiary.be.user.presentation.dto.UserResponse;
 import com.aiary.be.global.exception.CustomException;
 import com.aiary.be.global.exception.errorCode.UserErrorCode;
 import com.aiary.be.user.domain.User;
@@ -25,7 +26,7 @@ public class AuthService {
             request.password(),
             request.userName(),
             request.age(),
-            request.role(),
+            Role.PATIENT,
             request.gender(),
             request.phoneNumber(),
             passwordEncoder

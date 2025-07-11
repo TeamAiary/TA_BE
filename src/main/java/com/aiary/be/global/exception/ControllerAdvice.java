@@ -1,16 +1,18 @@
 package com.aiary.be.global.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.net.URI;
-
 @RestControllerAdvice
 public class ControllerAdvice {
+
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ProblemDetail> handleInplaceException(
         HttpServletRequest request,
@@ -24,7 +26,30 @@ public class ControllerAdvice {
         problemDetail.setInstance(URI.create(request.getRequestURI()));
         return new ResponseEntity<>(problemDetail, exception.getHttpStatus());
     }
-    
+
+    // 유효성 검증
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidException(
+        HttpServletRequest request,
+        MethodArgumentNotValidException exception
+    ) {
+        String allErrorMessages = exception.getBindingResult().getAllErrors().stream()
+            .map(error -> error.getDefaultMessage())
+            .collect(Collectors.joining("\n"));
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+            HttpStatus.BAD_REQUEST,
+            allErrorMessages
+        );
+
+        problemDetail.setTitle(String.valueOf(HttpStatus.BAD_REQUEST));
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(problemDetail);
+
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> handleException(
         HttpServletRequest request,
@@ -36,9 +61,9 @@ public class ControllerAdvice {
         );
         problemDetail.setTitle("E999");
         problemDetail.setInstance(URI.create(request.getRequestURI()));
-        
+
         exception.printStackTrace();
-        
+
         return new ResponseEntity<>(problemDetail, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

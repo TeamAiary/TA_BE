@@ -1,4 +1,4 @@
-package com.aiary.be.auth.presentation.dto;
+package com.aiary.be.user.presentation.dto;
 
 import com.aiary.be.user.domain.Gender;
 import com.aiary.be.user.domain.Role;

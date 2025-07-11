@@ -3,13 +3,11 @@ package com.aiary.be.auth.presentation;
 import com.aiary.be.auth.application.AuthService;
 import com.aiary.be.auth.presentation.dto.LoginRequest;
 import com.aiary.be.auth.presentation.dto.SignupRequest;
-import com.aiary.be.auth.presentation.dto.UserResponse;
+import com.aiary.be.user.presentation.dto.UserResponse;
 import com.aiary.be.global.response.Message;
 import com.aiary.be.global.util.SessionUtil;
-import com.aiary.be.user.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,7 @@ public class AuthController {
     // 회원가입
     @PostMapping("/register")
     public ResponseEntity<?> register(
-        @RequestBody SignupRequest signupRequest
+        @Valid @RequestBody SignupRequest signupRequest
     ) {
         authService.save(signupRequest);
 
@@ -40,7 +38,7 @@ public class AuthController {
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<?> login(
-        @RequestBody LoginRequest loginRequest,
+        @Valid @RequestBody LoginRequest loginRequest,
         BindingResult bindingResult,
         HttpServletRequest httpServletRequest
     ) {
