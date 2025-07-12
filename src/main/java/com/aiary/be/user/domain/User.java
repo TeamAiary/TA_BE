@@ -84,6 +84,10 @@ public class User {
         this.weeklyMission = 0;
     }
     
+    public void missionClear(int number) {
+        this.weeklyMission += (int) Math.pow(2, number - 1);
+    }
+    
     public List<Boolean> getWeeklyMissionBool() {
         ArrayList<Boolean> response = new ArrayList<>();
         

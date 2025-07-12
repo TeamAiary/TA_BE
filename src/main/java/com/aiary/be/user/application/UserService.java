@@ -65,4 +65,13 @@ public class UserService {
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
+    
+    @Transactional
+    public void missionClear(Long userId, int number) {
+        User user = userRepository.findById(userId).orElseThrow(
+            () -> CustomException.from(UserErrorCode.NOT_FOUND)
+        );
+        
+        user.missionClear(number);
+    }
 }
