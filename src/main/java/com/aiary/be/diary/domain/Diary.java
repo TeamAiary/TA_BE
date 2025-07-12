@@ -67,7 +67,7 @@ public class Diary {
     }
     
     public String getPreview() {
-        return content.substring(0, 12);
+        return content.length() < 12 ? content : content.substring(0, 12);
     }
     
     public int getMostEmotionPoint() {
