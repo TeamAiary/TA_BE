@@ -20,19 +20,19 @@ public class Mission {
     private boolean essential;
     
     @Column
-    private boolean activate;
+    private boolean activated;
     
     public Mission(String content, boolean essential) {
         this.content = content;
         this.essential = essential;
-        this.activate = false;
+        this.activated = false;
     }
     
     public void activate() {
-        this.activate = true;
+        this.activated = true;
     }
     
     public void deactivate() {
-        this.activate = false;
+        this.activated = false;
     }
 }
