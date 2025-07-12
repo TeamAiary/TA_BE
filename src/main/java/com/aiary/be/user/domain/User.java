@@ -85,7 +85,9 @@ public class User {
     }
     
     public void missionClear(int number) {
-        this.weeklyMission += (int) Math.pow(2, number - 1);
+        if ((weeklyMission & (1 << (number - 1))) == 0) {
+            weeklyMission |= (1 << (number - 1));
+        }
     }
     
     public List<Boolean> getWeeklyMissionBool() {
