@@ -35,13 +35,13 @@ public class UserService {
 
         user.update(request.email(), request.password(), request.userName(), request.age(),
             request.gender(), request.phoneNumber(), passwordEncoder);
-
     }
 
     public void deleteUser(Long userId){
-        userRepository.findById(userId)
-            .orElseThrow(() -> CustomException.from(UserErrorCode.NOT_FOUND));
-
+        if(!userRepository.existsById(userId)) {
+            throw CustomException.from(UserErrorCode.NOT_FOUND);
+        }
+        
         userRepository.deleteById(userId);
     }
     
