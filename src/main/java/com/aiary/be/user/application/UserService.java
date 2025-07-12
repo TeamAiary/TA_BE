@@ -35,14 +35,21 @@ public class UserService {
 
         user.update(request.email(), request.password(), request.userName(), request.age(),
             request.gender(), request.phoneNumber(), passwordEncoder);
-
     }
 
     public void deleteUser(Long userId){
-        userRepository.findById(userId)
-            .orElseThrow(() -> CustomException.from(UserErrorCode.NOT_FOUND));
-
+        if(!userRepository.existsById(userId)) {
+            throw CustomException.from(UserErrorCode.NOT_FOUND);
+        }
+        
         userRepository.deleteById(userId);
+    }
+    
+    public List<Boolean> getBooleanWeeklyMission(Long userId) {
+        User user = userRepository.findById(userId)
+                        .orElseThrow(() -> CustomException.from(UserErrorCode.NOT_FOUND));
+        
+        return user.getWeeklyMissionBool();
     }
 
     // for other domains
@@ -57,5 +64,14 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<User> getAllUser() {
         return userRepository.findAll();
+    }
+    
+    @Transactional
+    public void missionClear(Long userId, int number) {
+        User user = userRepository.findById(userId).orElseThrow(
+            () -> CustomException.from(UserErrorCode.NOT_FOUND)
+        );
+        
+        user.missionClear(number);
     }
 }

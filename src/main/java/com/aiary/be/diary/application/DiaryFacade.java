@@ -6,9 +6,11 @@ import com.aiary.be.global.annotation.Facade;
 import com.aiary.be.global.exception.CustomException;
 import com.aiary.be.global.exception.errorCode.DiaryErrorCode;
 import com.aiary.be.global.util.DateUtil;
+import com.aiary.be.mission.event.MissionEvent;
 import com.aiary.be.user.application.UserService;
 import com.aiary.be.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -18,6 +20,7 @@ import java.util.List;
 @Facade
 @RequiredArgsConstructor
 public class DiaryFacade {
+    private final ApplicationEventPublisher eventPublisher;
     private final DiaryService diaryService;
     private final UserService userService;
     
@@ -47,6 +50,13 @@ public class DiaryFacade {
         User user = userService.getUserForDiary(userId);
         
         diaryService.createDiary(user, diaryRequest);
+        
+        List<Boolean> booleans = weeklyWriteDiary(userId);
+        long count = booleans.stream()
+                        .filter(Boolean::booleanValue)
+                        .count();
+        
+        eventPublisher.publishEvent(new MissionEvent(userId, count));
     }
     
     public void updateDiary(Long userId, Long diaryId, DiaryRequest diaryRequest) {

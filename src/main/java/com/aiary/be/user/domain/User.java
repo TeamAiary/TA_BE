@@ -14,6 +14,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -47,6 +50,9 @@ public class User {
 
     @Column
     private String phoneNumber;
+    
+    @Column
+    private int weeklyMission;
 
     public User(String email, String password, String userName, int age, Role role, Gender gender,
         String phoneNumber, PasswordEncoder passwordEncoder) {
@@ -57,6 +63,7 @@ public class User {
         this.role = role;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
+        this.weeklyMission = 0;
     }
 
     public boolean passwordMatches(String rawPassword, PasswordEncoder passwordEncoder) {
@@ -71,5 +78,26 @@ public class User {
         this.age = age!=0?age:this.age;
         this.gender = gender!=null?gender:this.gender;
         this.phoneNumber = phoneNumber!=null?phoneNumber:this.phoneNumber;
+    }
+    
+    public void resetWeeklyMission() {
+        this.weeklyMission = 0;
+    }
+    
+    public void missionClear(int number) {
+        if ((weeklyMission & (1 << (number - 1))) == 0) {
+            weeklyMission |= (1 << (number - 1));
+        }
+    }
+    
+    public List<Boolean> getWeeklyMissionBool() {
+        ArrayList<Boolean> response = new ArrayList<>();
+        
+        for (int i = 0; i < 6; i++) {
+            // (mask >> i) & 1이 1이면 true, 아니면 false
+            response.add(((weeklyMission >> i) & 1) == 1);
+        }
+        
+        return response;
     }
 }

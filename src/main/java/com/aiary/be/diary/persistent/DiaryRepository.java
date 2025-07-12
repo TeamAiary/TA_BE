@@ -27,5 +27,8 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
         @Param("endDate") LocalDateTime end
     );
     
-    Optional<Diary> findByUserIdOrderByIdDesc(Long userId);
+    @Query("SELECT e from Diary e WHERE e.id = :userId ORDER BY e.id LIMIT 1")
+    Optional<Diary> findByUserIdOrderByIdDesc(
+        @Param("userId") Long userId
+    );
 }

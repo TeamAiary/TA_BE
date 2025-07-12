@@ -11,6 +11,7 @@ import com.aiary.be.auth.presentation.dto.SignupRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +21,9 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     // 회원가입: 신규 유저 등록
+    @Transactional
     public void save(SignupRequest request) {
-        if(userRepository.findUserByEmail(request.email()).isPresent()){
+        if(userRepository.existsByEmail(request.email())){
             throw CustomException.from(UserErrorCode.DUPLICATE_EMAIL);
         }
 
@@ -38,7 +40,8 @@ public class AuthService {
 
         userRepository.save(newUser);
     }
-
+    
+    @Transactional
     public UserResponse login(String email, String password){
         User user = userRepository.findUserByEmail(email)
             .orElseThrow(()-> CustomException.from(UserErrorCode.INVALID_EMAIL_PASSWORD));
