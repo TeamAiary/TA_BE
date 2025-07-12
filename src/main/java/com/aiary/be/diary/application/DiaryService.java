@@ -100,4 +100,9 @@ public class DiaryService {
         
         return Objects.equals(diary.getUser().getId(), userId);
     }
+    
+    @Transactional
+    public void deleteByUserId(Long userId) {
+        diaryRepository.deleteDiariesByUserId(userId);
+    }
 }
