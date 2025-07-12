@@ -1,0 +1,148 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1 {
+    color: #2e8b57; /* Dark green */
+    margin-top: 40px;
+    margin-bottom: 80px;
+    text-align: center;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 50px;
+}
+.card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s;
+}
+.icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: #4caf50;
+}
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.status {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #666;
+}
+.btn {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn-toggle {
+    background-color: #81c784;
+    color: white;
+}
+.btn-toggle:hover {
+    background-color: #66bb6a;
+}
+.btn-run {
+    background-color: #64b5f6;
+    color: white;
+}
+.btn-run:hover {
+    background-color: #42a5f5;
+}
+
+.header {
+    width: 100%;
+    height: 60px;
+    background-color: #3cb371;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0 20px;
+}
+
+/* 좌측 텍스트 링크 스타일 */
+.admin-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: opacity 0.2s ease;
+}
+
+.admin-link:hover {
+    opacity: 0.8;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 800px;
+    height: 800px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 80%;
+    max-width: 900px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table thead tr {
+    background-color: #3cb371; /* Medium sea green */
+    color: white;
+    text-align: left;
+}
+
+table th,
+table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}

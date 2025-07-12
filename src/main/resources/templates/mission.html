@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>미션 관리 페이지</title>
+    <link rel="stylesheet" href="/css/mission.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/mission.js"></script>
+</head>
+<body>
+<div class="header" id="header">
+    <a href="/admin/main" class="admin-link">Apnea Guard</a>
+</div>
+
+<h1>미션 관리자 페이지</h1>
+
+<div class="container">
+    <div class="card">
+        <div class="icon">🎈</div>
+        <div class="title">미션 초기화</div>
+        <button class="btn btn-toggle" onclick="initMission()">실행</button>
+    </div>
+
+    <div class="card">
+        <div class="icon">📕</div>
+        <div class="title">미션 관리</div>
+        <button class="btn btn-toggle" id="openModalBtn">실행</button>
+    </div>
+</div>
+
+</body>
+</html>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <p>미션 목록</p>
+        <table id="mission-table">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Content</th>
+                <th scope="col">isActivated</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody id="mission-tbody">
+            <!-- AJAX를 통해 데이터를 로드 -->
+            </tbody>
+        </table>
+        <div>
+            <button id="prevPage">Prev</button>
+            <button id="search" onclick="getMissions(currentPage)">조회</button>
+            <button id="nextPage">Next</button>
+        </div>
+        <button class="btn btn-toggle" id="closeModalBtn">닫기</button>
+    </div>
+</div>

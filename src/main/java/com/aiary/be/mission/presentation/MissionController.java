@@ -5,8 +5,11 @@ import com.aiary.be.mission.application.MissionFacade;
 import com.aiary.be.mission.application.MissionService;
 import com.aiary.be.mission.presentation.dto.ClearNumber;
 import com.aiary.be.mission.presentation.dto.MissionRequest;
-import com.aiary.be.mission.presentation.dto.MissionResponse;
+import com.aiary.be.mission.presentation.dto.MissionResponse.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +25,8 @@ public class MissionController {
     
     @GetMapping
     public ResponseEntity<?> getMissions() {
-        List<MissionResponse> response = missionService.getWeeklyMission().stream()
-                                             .map(MissionResponse::from).toList();
+        List<Simple> response = missionService.getWeeklyMission().stream()
+                                             .map(Simple::from).toList();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
@@ -58,5 +61,24 @@ public class MissionController {
         missionFacade.initMission();
         
         return new ResponseEntity<>(Message.from("미션이 초기화 되었습니다"), HttpStatus.OK);
+    }
+    
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllMissions(
+        @PageableDefault Pageable pageable
+    ) {
+        Page<Detail> response = missionService.getAllMission(pageable)
+                                    .map(Detail::from);
+        
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/{missionId}")
+    public ResponseEntity<?> deleteMission(
+        @PathVariable Long missionId
+    ) {
+        missionService.deleteMission(missionId);
+        
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
