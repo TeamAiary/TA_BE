@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("openModalBtn").addEventListener("click", openModal);
     document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+    document.getElementById("mission-submit").addEventListener("click", saveMission);
 })
 
 function initMission(){
@@ -85,6 +86,30 @@ function deleteMissionFunction(missionId) {
         url: "/api/mission/" + missionId,
         success : function(res){
             alert(missionId + "번 미션을 삭제했습니다.");
+            getMissions(currentPage)
+        },
+        error : function(error){
+            alert("권한이 없습니다");
+            window.location.href = '/admin';
+        }
+    })
+}
+
+function saveMission() {
+    mission = {
+        "content" : $("#mission-input").val(),
+        "essential" : false
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/api/mission",
+        contentType: "application/json",
+        datatype : "json",
+        data : JSON.stringify(mission),
+        success : function(res){
+            alert("미션이 추가되었습니다.");
+            getMissions(currentPage)
         },
         error : function(error){
             alert("권한이 없습니다");
