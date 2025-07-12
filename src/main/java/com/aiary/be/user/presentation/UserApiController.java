@@ -5,6 +5,7 @@ import com.aiary.be.user.application.UserService;
 import com.aiary.be.user.presentation.dto.MissionProgressResponse;
 import com.aiary.be.user.presentation.dto.UserRequest;
 import com.aiary.be.user.presentation.dto.UserResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class UserApiController {
     @PatchMapping
     public ResponseEntity<?> updateMyProfile(
         @RequestAttribute("userId") Long userId,
-        @RequestBody UserRequest userRequest
+        @Valid @RequestBody UserRequest userRequest
     ) {
         userService.updateUser(userId, userRequest);
 

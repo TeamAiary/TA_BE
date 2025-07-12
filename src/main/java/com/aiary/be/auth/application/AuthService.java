@@ -21,6 +21,10 @@ public class AuthService {
 
     // 회원가입: 신규 유저 등록
     public void save(SignupRequest request) {
+        if(userRepository.findUserByEmail(request.email()).isPresent()){
+            throw CustomException.from(UserErrorCode.DUPLICATE_EMAIL);
+        }
+
         User newUser = new User(
             request.email(),
             request.password(),
