@@ -44,6 +44,13 @@ public class UserService {
 
         userRepository.deleteById(userId);
     }
+    
+    public List<Boolean> getBooleanWeeklyMission(Long userId) {
+        User user = userRepository.findById(userId)
+                        .orElseThrow(() -> CustomException.from(UserErrorCode.NOT_FOUND));
+        
+        return user.getWeeklyMissionBool();
+    }
 
     // for other domains
 

@@ -2,6 +2,7 @@ package com.aiary.be.user.presentation;
 
 import com.aiary.be.global.response.Message;
 import com.aiary.be.user.application.UserService;
+import com.aiary.be.user.presentation.dto.MissionProgressResponse;
 import com.aiary.be.user.presentation.dto.UserRequest;
 import com.aiary.be.user.presentation.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,16 @@ public class UserApiController {
 
         return ResponseEntity.status(HttpStatus.OK)
             .body(Message.from("계정 삭제에 성공하였습니다."));
+    }
+    
+    @GetMapping("/mission")
+    public ResponseEntity<?> getWeeklyMissionProgress(
+        @RequestAttribute("userId") Long userId
+    ) {
+        MissionProgressResponse response = MissionProgressResponse.from(
+            userService.getBooleanWeeklyMission(userId)
+        );
+        
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
