@@ -9,6 +9,7 @@ import com.aiary.be.global.exception.CustomException;
 import com.aiary.be.global.exception.errorCode.DiaryErrorCode;
 import com.aiary.be.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DiaryService {
@@ -50,17 +52,17 @@ public class DiaryService {
     }
     
     @Transactional
-    public void createDiary(User user, DiaryRequest diaryRequest) {
+    public void upsertDiary(User user, DiaryRequest diaryRequest) {
         Optional<Diary> exist = diaryRepository.findByUserIdOrderByIdDesc(user.getId());
         
-        if(exist.isPresent()) {
-            int year = exist.get().getCreatedAt().getYear();
-            int month = exist.get().getCreatedAt().getMonthValue();
-            int day = exist.get().getCreatedAt().getDayOfMonth();
+        if(exist.isPresent() && isToday(exist.get())) {
+            exist.get().update(
+                diaryRequest.title(), diaryRequest.content(),
+                Weather.nameToEntity(diaryRequest.weather()),
+                diaryRequest.depression(), diaryRequest.anger(), diaryRequest.happy()
+            );
             
-            if(LocalDate.now().isEqual(LocalDate.of(year, month, day))) {
-                throw CustomException.from(DiaryErrorCode.ALREADY_EXIST_DAY);
-            }
+            return;
         }
         
         Diary diary = new Diary(
@@ -74,17 +76,12 @@ public class DiaryService {
         diaryRepository.save(diary);
     }
     
-    @Transactional
-    public void updateDiary(Long diaryId, DiaryRequest diaryRequest) {
-        Diary diary = diaryRepository.findById(diaryId).orElseThrow(
-            () -> CustomException.from(DiaryErrorCode.NOT_FOUND)
-        );
+    private boolean isToday(Diary diary) {
+        int year = diary.getCreatedAt().getYear();
+        int month = diary.getCreatedAt().getMonthValue();
+        int day = diary.getCreatedAt().getDayOfMonth();
         
-        diary.update(
-            diaryRequest.title(), diaryRequest.content(),
-            Weather.nameToEntity(diaryRequest.weather()),
-            diaryRequest.depression(), diaryRequest.anger(), diaryRequest.happy()
-        );
+        return LocalDate.now().isEqual(LocalDate.of(year, month, day));
     }
     
     @Transactional

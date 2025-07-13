@@ -69,20 +69,6 @@ public class DiaryController {
         );
     }
     
-    // 다이어리 수정하기 (자신의 다이어리만 수정 가능)
-    @PatchMapping("/{diaryId}")
-    public ResponseEntity<?> updateOneDiary(
-        @RequestBody DiaryRequest diaryRequest,
-        @PathVariable Long diaryId,
-        @RequestAttribute Long userId
-    ) {
-        diaryFacade.updateDiary(userId, diaryId, diaryRequest);
-        return new ResponseEntity<>(
-            Message.from("다이어리 수정에 성공했습니다."),
-            HttpStatus.OK
-        );
-    }
-    
     // 다이어리 삭제하기 (자신의 다이어리만 삭제 가능)
     @DeleteMapping("/{diaryId}")
     public ResponseEntity<?> deleteOneDiary(
