@@ -17,7 +17,7 @@ $(document).ready(function() {
 
 function getMembers(page){
     $.ajax({
-        url: '/api/user/all' + '?page=' + page + '&size=' + pageSize,
+        url: '/api/admin/user' + '?page=' + page + '&size=' + pageSize,
         method: 'GET',
         success: function(data) {
             var contents = data.content;
@@ -59,7 +59,7 @@ function getMembers(page){
 function deleteMemberFunction(id){
     $.ajax({
         type: "DELETE",
-        url: "/api/user/" + id,
+        url: "/api/admin/user/" + id,
         success : function(res){
             alert(id + "번 유저가 삭제되었습니다.");
             getMembers(currentPage);
@@ -74,7 +74,7 @@ function deleteMemberFunction(id){
 function grantFunction(id) {
     $.ajax({
         type: "POST",
-        url: "/api/user/" + id + "/grant",
+        url: "/api/admin/user/" + id + "/grant",
         success : function(res){
             alert("유저 ID : " + id + "의 권한이 변경되었습니다.");
             getMembers(currentPage);

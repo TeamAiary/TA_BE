@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function initMission(){
     $.ajax({
         type: "POST",
-        url: "/api/mission/init",
+        url: "/api/admin/mission/init",
         success : function(res){
             alert("미션을 초기화했습니다.");
         },
@@ -45,7 +45,7 @@ $(document).ready(function() {
 
 function getMissions(page){
     $.ajax({
-        url: '/api/mission/all' + '?page=' + page + '&size=' + pageSize,
+        url: '/api/admin/mission/all' + '?page=' + page + '&size=' + pageSize,
         method: 'GET',
         success: function(data) {
             var contents = data.content;
@@ -83,7 +83,7 @@ function getMissions(page){
 function deleteMissionFunction(missionId) {
     $.ajax({
         type: "DELETE",
-        url: "/api/mission/" + missionId,
+        url: "/api/admin/mission/" + missionId,
         success : function(res){
             alert(missionId + "번 미션을 삭제했습니다.");
             getMissions(currentPage)
@@ -103,7 +103,7 @@ function saveMission() {
 
     $.ajax({
         type: "POST",
-        url: "/api/mission",
+        url: "/api/admin/mission",
         contentType: "application/json",
         datatype : "json",
         data : JSON.stringify(mission),

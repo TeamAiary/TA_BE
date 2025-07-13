@@ -30,22 +30,6 @@ public class MissionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @PostMapping
-    public ResponseEntity<?> addMissions(
-        @RequestBody MissionRequest missionRequest
-    ) {
-        missionService.makeMission(missionRequest);
-        
-        return new ResponseEntity<>(Message.from("미션이 생성되었습니다."), HttpStatus.CREATED);
-    }
-    
-    @PostMapping("/shuffle")
-    public ResponseEntity<?> shuffleMissions() {
-        missionService.shuffleMission();
-        
-        return new ResponseEntity<>(Message.from("미션이 변경되었습니다."), HttpStatus.OK);
-    }
-    
     @PostMapping("/clear")
     public ResponseEntity<?> clearMission(
         @RequestBody ClearNumber clearNumber,
@@ -54,31 +38,5 @@ public class MissionController {
         missionFacade.clearMission(userId, clearNumber.number());
         
         return new ResponseEntity<>(Message.from("미션" + clearNumber.number() + "이 해결되었습니다"), HttpStatus.OK);
-    }
-    
-    @PostMapping("/init")
-    public ResponseEntity<?> forceInitMission() {
-        missionFacade.initMission();
-        
-        return new ResponseEntity<>(Message.from("미션이 초기화 되었습니다"), HttpStatus.OK);
-    }
-    
-    @GetMapping("/all")
-    public ResponseEntity<?> getAllMissions(
-        @PageableDefault Pageable pageable
-    ) {
-        Page<Detail> response = missionService.getAllMission(pageable)
-                                    .map(Detail::from);
-        
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-    
-    @DeleteMapping("/{missionId}")
-    public ResponseEntity<?> deleteMission(
-        @PathVariable Long missionId
-    ) {
-        missionService.deleteMission(missionId);
-        
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

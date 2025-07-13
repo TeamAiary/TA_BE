@@ -62,31 +62,4 @@ public class UserApiController {
         
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    
-    @GetMapping("/all")
-    public ResponseEntity<?> readAllUser(
-        @PageableDefault Pageable pageable
-    ) {
-        Page<UserResponse> response = userService.findAllUserInfo(pageable);
-        
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-    
-    @PostMapping("/{userId}/grant")
-    public ResponseEntity<?> grantUser(
-        @PathVariable Long userId
-    ) {
-        userService.grant(userId);
-        
-        return new ResponseEntity<>(Message.from("유저 역할이 변경되었습니다."), HttpStatus.OK);
-    }
-    
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(
-        @PathVariable Long userId
-    ) {
-        userFacade.deleteUser(userId);
-        
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }
