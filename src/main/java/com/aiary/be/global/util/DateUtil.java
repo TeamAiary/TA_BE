@@ -16,7 +16,7 @@ public class DateUtil {
         range[0] = LocalDateTime.of(year, month, 1, 0, 0, 0);
         
         int endYear = month != 12 ? year : year+1;
-        int endMonth = month != 12 ? month : 1;
+        int endMonth = month != 12 ? month+1 : 1;
         range[1] = LocalDateTime.of(endYear, endMonth, 1, 0, 0, 0);
         return range;
     }
