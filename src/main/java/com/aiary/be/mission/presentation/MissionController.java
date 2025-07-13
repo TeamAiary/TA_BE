@@ -37,6 +37,6 @@ public class MissionController {
     ) {
         missionFacade.clearMission(userId, clearNumber.number());
         
-        return new ResponseEntity<>(Message.from("미션" + clearNumber.number() + "이 해결되었습니다"), HttpStatus.OK);
+        return new ResponseEntity<>(Message.from("미션" + clearNumber.number() + "의 상태가 변경되었습니다"), HttpStatus.OK);
     }
 }
