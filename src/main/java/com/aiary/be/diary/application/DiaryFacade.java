@@ -36,11 +36,11 @@ public class DiaryFacade {
         LocalDateTime[] range = DateUtil.weeklyDiaryRange();
         
         List<Integer> writeDay = diaryService.readDiaryInfos(userId, range).stream()
-                                      .map(diaryInfo -> diaryInfo.createdAt().getDayOfWeek().getValue())
+                                     .map(diaryInfo -> diaryInfo.createdAt().getDayOfWeek().getValue())
                                      .toList();
         List<Boolean> isWrites = new ArrayList<>(List.of(false, false, false, false, false, false, false));
         for (Integer i : writeDay) {
-            isWrites.set(i, true);
+            isWrites.set(i-1, true);
         }
         
         return isWrites;
@@ -49,7 +49,7 @@ public class DiaryFacade {
     public void createDiary(Long userId, DiaryRequest diaryRequest) {
         User user = userService.getUserForDiary(userId);
         
-        diaryService.createDiary(user, diaryRequest);
+        diaryService.upsertDiary(user, diaryRequest);
         
         List<Boolean> booleans = weeklyWriteDiary(userId);
         long count = booleans.stream()
@@ -57,14 +57,6 @@ public class DiaryFacade {
                         .count();
         
         eventPublisher.publishEvent(new MissionEvent(userId, count));
-    }
-    
-    public void updateDiary(Long userId, Long diaryId, DiaryRequest diaryRequest) {
-        if(!diaryService.userMatch(userId, diaryId)) {
-            throw CustomException.from(DiaryErrorCode.NOT_MATCH);
-        }
-        
-        diaryService.updateDiary(diaryId, diaryRequest);
     }
     
     public void deleteDiary(Long userId, Long diaryId) {
