@@ -1,5 +1,6 @@
 package com.aiary.be.global.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
@@ -13,6 +14,7 @@ public class WebClientConfig {
     }
 
     @Bean
+    @Qualifier("counselWebClient")
     public WebClient counselWebClient(WebClient.Builder webClientBuilder){
         String url = "https://api.odcloud.kr/api";
 
@@ -21,6 +23,23 @@ public class WebClientConfig {
         final int size = 10 * 1024 * 1024; // 10MB
         final ExchangeStrategies strategies = ExchangeStrategies.builder()
             .codecs(codecs -> codecs.defaultCodecs().maxInMemorySize(size))
+            .build();
+
+        return webClientBuilder
+            .baseUrl(url)
+            .defaultHeader("Accept", "application/json")
+            .exchangeStrategies(strategies)
+            .build();
+    }
+
+    @Bean
+    @Qualifier("kakaoWebClient")
+    public WebClient counselKakaoWebClient(WebClient.Builder webClientBuilder){
+        String url = "https://dapi.kakao.com";
+
+        final int size = 10*1024*1024;
+        final ExchangeStrategies strategies = ExchangeStrategies.builder()
+            .codecs(codecs-> codecs.defaultCodecs().maxInMemorySize(size))
             .build();
 
         return webClientBuilder
