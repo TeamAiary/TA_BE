@@ -4,6 +4,7 @@ import com.aiary.be.diary.domain.Diary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -27,8 +28,15 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
         @Param("endDate") LocalDateTime end
     );
     
-    @Query("SELECT e from Diary e WHERE e.id = :userId ORDER BY e.id LIMIT 1")
+    @Query("SELECT e from Diary e WHERE e.user.id = :userId ORDER BY e.id ASC LIMIT 1")
     Optional<Diary> findByUserIdOrderByIdDesc(
         @Param("userId") Long userId
     );
+    
+    @Modifying
+    @Query("DELETE FROM Diary e WHERE e.user.id = :userId")
+    void deleteDiariesByUserId(
+        @Param("userId") Long userId
+    );
+    
 }

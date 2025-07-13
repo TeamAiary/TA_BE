@@ -8,6 +8,8 @@ import com.aiary.be.user.presentation.dto.UserRequest;
 import com.aiary.be.user.presentation.dto.UserResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,5 +75,19 @@ public class UserService {
         );
         
         user.missionClear(number);
+    }
+    
+    @Transactional(readOnly = true)
+    public Page<UserResponse> findAllUserInfo(Pageable pageable) {
+        return userRepository.findAll(pageable).map(UserResponse::from);
+    }
+    
+    @Transactional
+    public void grant(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+            () -> CustomException.from(UserErrorCode.NOT_FOUND)
+        );
+        
+        user.grant();
     }
 }

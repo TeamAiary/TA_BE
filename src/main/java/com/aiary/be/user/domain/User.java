@@ -12,11 +12,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -99,5 +101,15 @@ public class User {
         }
         
         return response;
+    }
+    
+    public void grant() {
+        if(this.role.equals(Role.PATIENT)) {
+            this.role = Role.EXPERT;
+            return;
+        }
+        if(this.role.equals(Role.EXPERT)) {
+            this.role = Role.PATIENT;
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.aiary.be.global.interceptor;
 
 import com.aiary.be.global.exception.CustomException;
 import com.aiary.be.global.exception.errorCode.UserErrorCode;
+import com.aiary.be.user.domain.Role;
 import com.aiary.be.user.presentation.dto.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,9 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+
+
 @Slf4j
 public class LoginCheckInterceptor implements HandlerInterceptor {
-
     @Override
     public boolean preHandle(
         HttpServletRequest request,
@@ -30,7 +32,15 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             throw CustomException.from(UserErrorCode.REQUIRED_LOGIN);
 
         }
+        
         UserResponse userResponse = (UserResponse) session.getAttribute("loggedInUser");
+        boolean isAdminApi = request.getRequestURI().startsWith("/api/admin")
+                                 || request.getRequestURI().startsWith("/admin");
+        
+        if(isAdminApi && !userResponse.role().equals(Role.ADMIN)) {
+            throw CustomException.from(UserErrorCode.NOT_ADMIN);
+        }
+        
         request.setAttribute("userId", userResponse.userId());
         return true;
     }

@@ -27,6 +27,6 @@ public class MissionEventListener {
             case ESSENTIAL_MISSION_THREE -> userService.missionClear(missionEvent.userId(), 3);
         }
         
-        log.info("유저 " + missionEvent.userId() + "번의 필수 미션 1개 수행 완료");
+        log.info("유저 {}번의 필수 미션 1개 수행 완료", missionEvent.userId());
     }
 }

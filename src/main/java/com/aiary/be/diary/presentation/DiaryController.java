@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -67,20 +66,6 @@ public class DiaryController {
         return new ResponseEntity<>(
             Message.from("다이어리 생성에 성공했습니다."),
             HttpStatus.CREATED
-        );
-    }
-    
-    // 다이어리 수정하기 (자신의 다이어리만 수정 가능)
-    @PatchMapping("/{diaryId}")
-    public ResponseEntity<?> updateOneDiary(
-        @RequestBody DiaryRequest diaryRequest,
-        @PathVariable Long diaryId,
-        @RequestAttribute Long userId
-    ) {
-        diaryFacade.updateDiary(userId, diaryId, diaryRequest);
-        return new ResponseEntity<>(
-            Message.from("다이어리 수정에 성공했습니다."),
-            HttpStatus.OK
         );
     }
     

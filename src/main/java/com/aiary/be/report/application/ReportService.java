@@ -29,4 +29,9 @@ public class ReportService {
     public void saveReportBulk(List<Report> reports) {
         reportRepository.saveAll(reports);
     }
+    
+    @Transactional
+    public void deleteReportByUserId(Long userId) {
+        reportRepository.deleteReportsByUserId(userId);
+    }
 }
