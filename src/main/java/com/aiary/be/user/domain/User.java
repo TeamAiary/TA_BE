@@ -87,9 +87,7 @@ public class User {
     }
     
     public void missionClear(int number) {
-        if ((weeklyMission & (1 << (number - 1))) == 0) {
-            weeklyMission |= (1 << (number - 1));
-        }
+        weeklyMission ^= (1 << (number - 1));
     }
     
     public List<Boolean> getWeeklyMissionBool() {
