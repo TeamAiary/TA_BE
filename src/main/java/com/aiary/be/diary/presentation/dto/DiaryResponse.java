@@ -37,7 +37,9 @@ public class DiaryResponse {
         String weather,
         int depression,
         int anger,
-        int happy
+        int happy,
+        String emotion,
+        int emotionPoint
     ) {
         public static Detail from(DiaryInfo diaryInfo) {
             return new Detail(
@@ -47,7 +49,9 @@ public class DiaryResponse {
                 diaryInfo.weather().name(),
                 diaryInfo.depression(),
                 diaryInfo.anger(),
-                diaryInfo.happy()
+                diaryInfo.happy(),
+                diaryInfo.emotion(),
+                diaryInfo.emotionPoint()
             );
         }
     }
