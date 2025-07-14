@@ -6,6 +6,7 @@ import com.aiary.be.diary.domain.Weather;
 import java.time.LocalDateTime;
 
 public record DiaryInfo(
+    Long id,
     String title,
     String content,
     LocalDateTime createdAt,
@@ -19,6 +20,7 @@ public record DiaryInfo(
 ) {
     public static DiaryInfo from(Diary diary) {
         return new DiaryInfo(
+            diary.getId(),
             diary.getTitle(),
             diary.getContent(),
             diary.getCreatedAt(),

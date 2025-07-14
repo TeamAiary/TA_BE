@@ -8,6 +8,7 @@ import java.util.List;
 public class DiaryResponse {
     // 간략한 정보 (복수 조회)
     public record Simple(
+        Long diaryId,
         String title,
         LocalDateTime createdAt,
         String weather,
@@ -17,6 +18,7 @@ public class DiaryResponse {
     ) {
         public static Simple from(DiaryInfo diaryInfo) {
             return new Simple(
+                diaryInfo.id(),
                 diaryInfo.title(),
                 diaryInfo.createdAt(),
                 diaryInfo.weather().name(),
