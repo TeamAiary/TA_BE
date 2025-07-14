@@ -2,6 +2,7 @@ package com.aiary.be.counsel.application;
 
 import com.aiary.be.counsel.application.dto.CounselData;
 import com.aiary.be.counsel.application.dto.RawResult;
+import com.aiary.be.counsel.presentation.dto.CounselResponse;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +31,7 @@ public class CounselService {
 
 
     // 시(city), 구(district) 정보를 받아서 해당 지역의 정신재활센터 list를 보여주는 메서드
-    public Mono<List<CounselData>> getCounselListByCity(String city, String district){
+    public Mono<CounselResponse> getCounselListByCity(String city, String district){
 
         return counselWebClient.get()
             .uri(uriBuilder ->uriBuilder
@@ -45,7 +46,8 @@ public class CounselService {
             .bodyToMono(RawResult.class)
             .map(rawResult -> rawResult.data().stream()
                     .filter(counselData -> counselData.adr()!=null && counselData.adr().contains(city))
-                    .toList());
+                    .toList())
+            .map(CounselResponse::from);
     }
 
     // 도로명주소 -> 위도/경도 추출하는 메서드(kakao map API 이용)
