@@ -83,7 +83,9 @@ public class User {
     }
     
     public void resetWeeklyMission() {
-        this.weeklyMission = 0;
+        int mask = (1 << (4 - 1)) | (1 << (5 - 1)) | (1 << (6 - 1));
+        
+        this.weeklyMission = this.weeklyMission & ~mask;
     }
     
     public void missionClear(int number) {
