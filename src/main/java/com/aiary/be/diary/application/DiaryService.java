@@ -53,11 +53,13 @@ public class DiaryService {
     
     @Transactional(readOnly = true)
     public DiaryInfo readTodayDiaryInfo(Long userId) {
-        Diary diary = diaryRepository.findByUserIdOrderByIdDesc(userId).orElseThrow(
-            () -> CustomException.from(DiaryErrorCode.NOT_EXIST_DAY)
-        );
+        Optional<Diary> exist = diaryRepository.findByUserIdOrderByIdDesc(userId);
         
-        return DiaryInfo.from(diary);
+        if(exist.isPresent() && isToday(exist.get())) {
+            return DiaryInfo.from(exist.get());
+        }
+        
+        throw CustomException.from(DiaryErrorCode.NOT_EXIST_DAY);
     }
     
     @Transactional
