@@ -11,6 +11,8 @@ public class SessionUtil{
     public static void setUserSession(HttpServletRequest request, UserResponse user) {
         HttpSession session = request.getSession();
         session.setAttribute("loggedInUser", user);
+        
+        session.setMaxInactiveInterval(30 * 60);
     }
 
     // 세션을 무효화(로그아웃)
