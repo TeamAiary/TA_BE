@@ -4,7 +4,7 @@ import com.aiary.be.global.exception.CustomException;
 import com.aiary.be.global.exception.errorCode.DiaryErrorCode;
 
 public enum Weather {
-    SUNNY, CLOUDY, SNOWY, WINDY;
+    SUNNY, CLOUDY, SNOWY, RAINY;
     
     public static Weather nameToEntity(String name) {
         Weather[] types = Weather.values();
