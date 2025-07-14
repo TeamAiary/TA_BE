@@ -30,7 +30,7 @@ public class ReportClient {
         String prompt = buildPrompt(diaryInfos, reportType);
         
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("model", "gpt-4o-mini");
+        requestBody.put("model", "gpt-4.1");
         requestBody.put("messages", List.of(Map.of("role", "user", "content", prompt)));
         
         return webClient.post()
@@ -55,15 +55,15 @@ public class ReportClient {
                               "아래는 사용자가 이번 주에 작성한 일기야.\n" :  "아래는 사용자가 이번 달에 작성한 일기야.\n";
         
         StringBuilder prompt = new StringBuilder(startStr);
-        prompt.append("아래의 일기들을 읽고, 사용자에게 공감과 위로가 담긴 따뜻한 리포트를 작성해 줘.\n");
-        prompt.append("리포트에는 다음 내용을 포함해:\n");
-        prompt.append("1. 일기를 읽고 느낀 전반적인 감정과 분위기 요약\n");
-        prompt.append("2. 사용자에게 공감과 위로의 말\n");
-        prompt.append("3. 오늘 하루를 되돌아볼 수 있는 질문 또는 생각할 거리\n");
-        prompt.append("4. 앞으로의 마음가짐이나 행동에 도움이 될 수 있는 따뜻한 조언\n");
-        prompt.append("너무 차갑거나 기계적으로 분석하지 말고, 진심 어린 친구처럼 부드럽고 따뜻하게 작성해 줘.\n");
-        prompt.append("일기는 오직 Plain text로만 작성하고, 마크다운 문법을 사용하지 않아야 해\n");
-        prompt.append("그리고, 1, 2, 3, 4 이런식의 첨자를 사용하지 말고 평서문으로, 존댓말, 특히 해요체로 작성해줘\n");
+        prompt.append("아래의 일기들을 읽고, 사용자에게 공감과 위로가 담긴 따뜻한 리포트를 작성해 줘.\n" +
+                          "리포트에는 다음 내용을 자연스럽게 담아 줘:\n" +
+                          "- 일기를 읽고 느낀 전반적인 감정과 분위기 요약\n" +
+                          "- 사용자에게 전하는 따뜻한 공감과 위로의 말\n" +
+                          "- 오늘 하루를 되돌아볼 수 있는 질문이나 생각할 거리\n" +
+                          "- 앞으로의 마음가짐이나 행동에 도움이 될 수 있는 조언\n" +
+                          "\n" +
+                          "분석적이기보다는, 감정과 공감을 중심으로 마치 친한 친구가 차 한잔하며 이야기하듯, 부드럽고 따뜻한 해요체로 작성해 줘.\n" +
+                          "글은 하나의 흐름으로 이어지는 자연스러운 글로 써 주고, 마크다운 문법은 사용하지 말아 줘.");
         
         for (int i = 0; i < diaryInfos.size(); i++) {
             prompt.append("\n일기 ")
