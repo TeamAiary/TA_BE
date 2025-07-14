@@ -47,6 +47,15 @@ public class DiaryController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
+    // 오늘 작성한 다이어리 내용 불러오기
+    @GetMapping("/today")
+    public ResponseEntity<?> readTodayDiary(
+        @RequestAttribute Long userId
+    ) {
+        DiaryResponse.Detail response = DiaryResponse.Detail.from(diaryFacade.readTodayDiaryInfo(userId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
     // 이번 주의 다이어리 작성 여부 불러오기
     @GetMapping("/weekly")
     public ResponseEntity<?> readWeeklyDiary(

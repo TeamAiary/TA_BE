@@ -1,6 +1,7 @@
 package com.aiary.be.diary.persistent;
 
 import com.aiary.be.diary.domain.Diary;
+import com.aiary.be.user.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,4 +40,5 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
         @Param("userId") Long userId
     );
     
+    Long user(User user);
 }
