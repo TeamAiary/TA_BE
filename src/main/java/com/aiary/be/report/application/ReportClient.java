@@ -63,7 +63,7 @@ public class ReportClient {
         prompt.append("4. 앞으로의 마음가짐이나 행동에 도움이 될 수 있는 따뜻한 조언\n");
         prompt.append("너무 차갑거나 기계적으로 분석하지 말고, 진심 어린 친구처럼 부드럽고 따뜻하게 작성해 줘.\n");
         prompt.append("일기는 오직 Plain text로만 작성하고, 마크다운 문법을 사용하지 않아야 해\n");
-        prompt.append("그리고, 1, 2, 3, 4 이런식의 첨자를 사용하지 말고 평서문으로 작성해줘\n");
+        prompt.append("그리고, 1, 2, 3, 4 이런식의 첨자를 사용하지 말고 평서문으로, 존댓말, 특히 해요체로 작성해줘\n");
         
         for (int i = 0; i < diaryInfos.size(); i++) {
             prompt.append("\n일기 ")

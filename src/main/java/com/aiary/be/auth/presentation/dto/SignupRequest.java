@@ -3,7 +3,6 @@ package com.aiary.be.auth.presentation.dto;
 import com.aiary.be.user.domain.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 
 public record SignupRequest(
     @Email(message = "올바른 이메일 형식이 아닙니다.")
