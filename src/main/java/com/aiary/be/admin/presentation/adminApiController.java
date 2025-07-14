@@ -97,7 +97,7 @@ public class adminApiController {
     }
     
     // 미션 삭제
-    @DeleteMapping("/{missionId}")
+    @DeleteMapping("/mission/{missionId}")
     public ResponseEntity<?> deleteMission(
         @PathVariable Long missionId
     ) {
