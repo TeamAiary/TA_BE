@@ -40,9 +40,6 @@ public class Report {
     @Embedded
     private Emotion emotion;
     
-    @Column
-    private int riskScore;
-    
     public Report(
         User user,
         String title, String content,
@@ -57,9 +54,5 @@ public class Report {
         this.startDate = startDate;
         this.endDate = endDate;
         this.emotion = emotion;
-    }
-    
-    public void calculateRisk(int riskScore) {
-        this.riskScore = riskScore;
     }
 }

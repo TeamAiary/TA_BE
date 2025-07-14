@@ -21,7 +21,7 @@ public record ReportInfo(
             DateUtil.dateFormating(report.getStartDate()),
             DateUtil.dateFormating(report.getEndDate()),
             report.getEmotion().getDepression(), report.getEmotion().getAnger(), report.getEmotion().getHappy(),
-            report.getRiskScore()
+            report.getEmotion().getRiskScore()
         );
     }
 }
