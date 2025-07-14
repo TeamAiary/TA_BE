@@ -78,7 +78,7 @@ public class ReportFacade {
                 for (AiResponse apiResponse : apiResponses) {
                     reports.add(new Report(
                         userIdMap.get(apiResponse.userId()),
-                        start + "부터 " + end + "까지의 리포트입니다.",
+                        start + "부터 " + end + "까지의 나.",
                         apiResponse.content(),
                         reportType,
                         start,
