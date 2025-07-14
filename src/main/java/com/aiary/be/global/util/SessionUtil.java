@@ -12,7 +12,7 @@ public class SessionUtil{
         HttpSession session = request.getSession();
         session.setAttribute("loggedInUser", user);
         
-        session.setMaxInactiveInterval(30 * 60);
+        session.setMaxInactiveInterval(60 * 60);
     }
 
     // 세션을 무효화(로그아웃)
