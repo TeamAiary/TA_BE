@@ -51,6 +51,15 @@ public class DiaryService {
         return DiaryInfo.from(diary);
     }
     
+    @Transactional(readOnly = true)
+    public DiaryInfo readTodayDiaryInfo(Long userId) {
+        Diary diary = diaryRepository.findByUserIdOrderByIdDesc(userId).orElseThrow(
+            () -> CustomException.from(DiaryErrorCode.NOT_EXIST_DAY)
+        );
+        
+        return DiaryInfo.from(diary);
+    }
+    
     @Transactional
     public void upsertDiary(User user, DiaryRequest diaryRequest) {
         Optional<Diary> exist = diaryRepository.findByUserIdOrderByIdDesc(user.getId());

@@ -32,6 +32,10 @@ public class DiaryFacade {
         return diaryService.readDiaryInfo(diaryId);
     }
     
+    public DiaryInfo readTodayDiaryInfo(Long userId) {
+        return diaryService.readTodayDiaryInfo(userId);
+    }
+    
     public List<Boolean> weeklyWriteDiary(Long userId) {
         LocalDateTime[] range = DateUtil.weeklyDiaryRange();
         
