@@ -48,10 +48,10 @@ public class ReportFacade {
         
         // 유저-주간 다이어리 쌍
         Map<Long, List<DiaryInfo>> userIdDiary = users.stream()
-                                                     .collect(Collectors.toMap(
-                                                         User::getId,
-                                                         user -> diaryService.readDiaryInfos(user.getId(), searchRange)
-                                                     ));
+                                                     .map(user -> Map.entry(user.getId(), diaryService.readDiaryInfos(user.getId(), searchRange)))
+                                                     .filter(entry -> !entry.getValue().isEmpty())
+                                                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        
         // 유저-주간 감정 쌍
         Map<Long, Emotion> userIdEmotion = userIdDiary.keySet().stream()
                                           .collect(Collectors.toMap(
@@ -70,7 +70,7 @@ public class ReportFacade {
         
         // 핵심 : 외부 api 호출을 non-blocking으로 하고, 이후에 응답을 모아서 한 번에 bulk로 저장
         Flux.fromIterable(userIdDiary.entrySet())
-            .flatMap(entry -> reportClient.analyze(entry.getKey(), entry.getValue()))
+            .flatMap(entry -> reportClient.analyze(entry.getKey(), entry.getValue(), reportType))
             .collectList()
             .publishOn(Schedulers.boundedElastic())
             .flatMap((apiResponses) -> {
@@ -78,7 +78,7 @@ public class ReportFacade {
                 for (AiResponse apiResponse : apiResponses) {
                     reports.add(new Report(
                         userIdMap.get(apiResponse.userId()),
-                        start + " - " + end,
+                        start + "부터 " + end + "까지의 리포트입니다.",
                         apiResponse.content(),
                         reportType,
                         start,
