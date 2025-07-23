@@ -40,14 +40,25 @@
 
 ## 프로젝트 주요 기능
 **1. 로그인 및 회원가입 기능**
-- 자체 로그인 기능 + ~Oauth 기능~
+- 자체 로그인 기능 구현
+- Interceptor를 이용한 인증 및 인가 기능
 
 **2. 일기 작성 기능**
 - 하루에 한 편씩, 일기를 작성할 수 있음
+- Upsert를 사용하여, 하루에 하나의 일기만 작성 가능하도록 구현
 
 **3. 리포트 열람 기능**
 - 1주, 1달에 한 편씩 주간, 월간 리포트를 열람할 수 있음
 - 이는 스케줄링 + open ai api를 이용하여 작성됨
+- WebClient + Mono를 통해 Non-Blocking 방식 통신으로 유저 1명당 1개의 요청을 병렬로 처리
+
+**4. 미션 기능**
+- 1주에 한 번씩 초기화되는 미션을 수행하는 기능
+- 미션 - 유저간은 비정규화를 통해 각각 관리 (유저에게 미션 진척도를 저장, 비트 마스킹 사용)
+
+**5. 상담소 조회 기능**
+- 내 주변의 상담소를 가져오는 기능
+- [공공 데이터 사용](https://www.data.go.kr/iim/api/selectAPIAcountView.do)
 
 ## 설계
 
@@ -84,6 +95,3 @@
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
 ![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)
-
-## 참조
-[추가 예정...]()
