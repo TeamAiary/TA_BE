@@ -60,6 +60,9 @@
 - 내 주변의 상담소를 가져오는 기능
 - [공공 데이터 사용](https://www.data.go.kr/iim/api/selectAPIAcountView.do)
 
+## API 문서
+> Notion Link : https://oxidized-sociology-a95.notion.site/API-2006c488cebc80369198c13a3c9e148c?pvs=74
+
 ## 설계
 
 **ERD**
@@ -88,6 +91,7 @@
 >
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+
 
 > Collaboration Tool
 >
